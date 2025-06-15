@@ -12,16 +12,26 @@ class MainVC: UIViewController, StoryboardInstantiable {
         return .main
     }
     
-
+    private lazy var viewModel = AuthVM(self)
     @IBOutlet weak var mobeBUtton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
+       let params = [ "email": "johan3@teebay.com",
+                   "first_name": "Ikram",
+                   "last_name": "Johan",
+                   "address": "Dhaka, BD",
+                   "firebase_console_manager_token": "DJKHJAHKDJHAKJHDJKHAJKHDJKAHDJK",
+                   "password": "123456"
+        ]
+//        viewModel.registerUser(params: params)
+        
+        viewModel.register(params: params)
+   
     }
     
-
     @IBAction func onTappedMoveButton(_ sender: Any) {
         
         guard let vc = ProductVC.instantiateSelf() else {
@@ -31,4 +41,24 @@ class MainVC: UIViewController, StoryboardInstantiable {
         navigationController?.pushViewController(vc, animated: true)
     }
    
+}
+
+extension MainVC : AuthVMDelegate {
+    func dataLoaded() {
+        print("Data load success")
+    }
+    
+    func showSpinner() {
+        print("")
+    }
+    
+    func hideSpinner() {
+        print("")
+    }
+    
+    func failedWithError(code: Int, message: String) {
+        print(message)
+    }
+    
+    
 }
