@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Alamofire
 class MainVC: UIViewController, StoryboardInstantiable {
     static var storyboardName: StoryboardName {
         return .main
@@ -18,6 +18,7 @@ class MainVC: UIViewController, StoryboardInstantiable {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
     }
     
 

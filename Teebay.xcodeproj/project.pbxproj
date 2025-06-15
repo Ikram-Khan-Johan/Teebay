@@ -17,6 +17,7 @@
 		1D496D472DFD5762002C5926 /* Product.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D496D462DFD5762002C5926 /* Product.storyboard */; };
 		1D496D4A2DFD57FD002C5926 /* ProductVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D496D492DFD57FD002C5926 /* ProductVC.swift */; };
 		1D496D4C2DFD58D5002C5926 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D496D4B2DFD58D5002C5926 /* MainVC.swift */; };
+		B360FF668159B40C4F173BDA /* Pods_Teebay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC44819F879E9FC7923A27FD /* Pods_Teebay.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,9 @@
 		1D496D462DFD5762002C5926 /* Product.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Product.storyboard; sourceTree = "<group>"; };
 		1D496D492DFD57FD002C5926 /* ProductVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductVC.swift; sourceTree = "<group>"; };
 		1D496D4B2DFD58D5002C5926 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
+		5714A59A607133AAE92F5FAA /* Pods-Teebay.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Teebay.release.xcconfig"; path = "Target Support Files/Pods-Teebay/Pods-Teebay.release.xcconfig"; sourceTree = "<group>"; };
+		A29CEAFB4A56E94042E45483 /* Pods-Teebay.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Teebay.debug.xcconfig"; path = "Target Support Files/Pods-Teebay/Pods-Teebay.debug.xcconfig"; sourceTree = "<group>"; };
+		DC44819F879E9FC7923A27FD /* Pods_Teebay.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Teebay.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B360FF668159B40C4F173BDA /* Pods_Teebay.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,6 +55,8 @@
 			children = (
 				1D496D392DFD56A1002C5926 /* Teebay */,
 				1D09AF282DFC7C2900776967 /* Products */,
+				AF6853BF7209E6087D6287FF /* Pods */,
+				A482EB598F32D8EDA1C4E4C5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -119,6 +126,23 @@
 			path = VC;
 			sourceTree = "<group>";
 		};
+		A482EB598F32D8EDA1C4E4C5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DC44819F879E9FC7923A27FD /* Pods_Teebay.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AF6853BF7209E6087D6287FF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A29CEAFB4A56E94042E45483 /* Pods-Teebay.debug.xcconfig */,
+				5714A59A607133AAE92F5FAA /* Pods-Teebay.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -126,17 +150,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D09AF3A2DFC7C2A00776967 /* Build configuration list for PBXNativeTarget "Teebay" */;
 			buildPhases = (
+				FDCA17306B2276AC601F1D58 /* [CP] Check Pods Manifest.lock */,
 				1D09AF232DFC7C2900776967 /* Sources */,
 				1D09AF242DFC7C2900776967 /* Frameworks */,
 				1D09AF252DFC7C2900776967 /* Resources */,
+				DB665F66B2912F2162DBE991 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Teebay;
-			packageProductDependencies = (
-			);
 			productName = Teebay;
 			productReference = 1D09AF272DFC7C2900776967 /* Teebay.app */;
 			productType = "com.apple.product-type.application";
@@ -189,6 +213,52 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		DB665F66B2912F2162DBE991 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Teebay/Pods-Teebay-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Teebay/Pods-Teebay-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Teebay/Pods-Teebay-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FDCA17306B2276AC601F1D58 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Teebay-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1D09AF232DFC7C2900776967 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -227,12 +297,14 @@
 /* Begin XCBuildConfiguration section */
 		1D09AF3B2DFC7C2A00776967 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A29CEAFB4A56E94042E45483 /* Pods-Teebay.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W4X4G28K44;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Teebay/Root/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -256,12 +328,14 @@
 		};
 		1D09AF3C2DFC7C2A00776967 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5714A59A607133AAE92F5FAA /* Pods-Teebay.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W4X4G28K44;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Teebay/Root/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
