@@ -102,7 +102,9 @@ class AuthVC: UIViewController, StoryboardInstantiable {
     }
     
     @IBAction func onTappedSigninButton(_ sender: Any) {
+        guard let vc = LoginVC.instantiateSelf() else { return }
         
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     

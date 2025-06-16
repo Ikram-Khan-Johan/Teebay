@@ -20,4 +20,5 @@ struct API {
 
 struct AuthApi {
     let register = baseUrl + "api/users/register/"
+    let login = baseUrl + "api/users/login/"
 }
