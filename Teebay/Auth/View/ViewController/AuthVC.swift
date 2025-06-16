@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Toast_Swift
+import JGProgressHUD
 
 class AuthVC: UIViewController, StoryboardInstantiable {
     static var storyboardName: StoryboardName
@@ -21,6 +23,8 @@ class AuthVC: UIViewController, StoryboardInstantiable {
         "firebase_console_manager_token": "string",
         "password": ""
     ]
+    
+    private lazy var hud = JGProgressHUD(style: .dark)
     private lazy var viewModel = AuthVM(self)
     @IBOutlet weak var firstNameTF: UITextField!
     
@@ -89,8 +93,8 @@ class AuthVC: UIViewController, StoryboardInstantiable {
         let allNonEmpty = userData.values.allSatisfy { !($0.isEmpty) }
         
         if !allNonEmpty {
-            
-            print("Please fillup the required fields")
+            self.view.makeToast("Please fillup the required fields", duration: 2.0, position: .bottom)
+//            print("Please fillup the required fields")
             return
         }
         
@@ -198,8 +202,11 @@ extension AuthVC : UITextFieldDelegate {
             } else {
                 if isEmailValid {
                     userData["email"] = textField.text
+                    emailErrorLabel.isHidden = true
+                } else {
+                    emailErrorLabel.isHidden = false
                 }
-                emailErrorLabel.isHidden = true
+               
             }
         }
         
@@ -231,22 +238,40 @@ extension AuthVC : UITextFieldDelegate {
     }
 }
 
-extension AuthVC : AuthVMDelegate {
-    func dataLoaded() {
-        //
+    // MARK: - AuthVC
+extension AuthVC: AuthVMDelegate {
+    
+    func failedWithError(code: Int, message: String) {
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            if !self.hud.isVisible {
+                self.hud.show(in: self.view)
+            }
+            
+            self.hud.indicatorView = JGProgressHUDErrorIndicatorView()
+            self.hud.textLabel.text = message
+            self.hud.dismiss(afterDelay: 2)
+        }
     }
     
     func showSpinner() {
-        //
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.hud.show(in: self.view)
+        }
     }
     
     func hideSpinner() {
-        //
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.hud.dismiss()
+        }
     }
     
-    func failedWithError(code: Int, message: String) {
-        //
+    func dataLoaded() {
+        //Do additional stuff after data fetched
     }
-    
     
 }

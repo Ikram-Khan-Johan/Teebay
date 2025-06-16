@@ -7,7 +7,7 @@
 
 import Foundation
 
-let baseUrl = "http://192.168.0.191:8000/"
+let baseUrl = "http://192.168.10.123:8000/"
 
 
 struct API {

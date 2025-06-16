@@ -1,16 +1,24 @@
 PODS:
   - Alamofire (5.10.2)
+  - JGProgressHUD (2.2)
+  - Toast-Swift (5.1.1)
 
 DEPENDENCIES:
   - Alamofire
+  - JGProgressHUD
+  - Toast-Swift (~> 5.1.1)
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - JGProgressHUD
+    - Toast-Swift
 
 SPEC CHECKSUMS:
   Alamofire: 7193b3b92c74a07f85569e1a6c4f4237291e7496
+  JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
+  Toast-Swift: 7a03a532afe3a560d4044bc7c237e2864d295173
 
-PODFILE CHECKSUM: ba99368c190b7bcfc177e920762f745a2cd2314b
+PODFILE CHECKSUM: 3041d0bd55d70d69de497b1ee021b10dcb89a632
 
 COCOAPODS: 1.16.2

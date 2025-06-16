@@ -65,7 +65,7 @@ class AuthVM {
     
     
     func register(params: [String : Any]) {
-           
+        self.delegate?.showSpinner()
             Task {
                 do {
                     let result = try await ApiService.shared.auth.register(parameters: params)
@@ -75,15 +75,20 @@ class AuthVM {
                         if let data = resigsterSuccessdata {
                             print("Successfully registered user", data )
                         }
+                        self.delegate?.dataLoaded()
                     case .failure(let error):
-                        let errorModel = error
-                        print("Eroor  \(errorModel)")
+                        let errorModel = error as RegisterErrorModel
+                        print("Eroor \(errorModel.email?.first ?? "")")
+                        self.delegate?.failedWithError(code: 0, message: errorModel.email?.first ?? "" )
                     }
                 } catch {
                     print("Error msg \(error.localizedDescription)")
 //                    self.errorMessage = error.localizedDescription
 //                    self.user = nil
+                    self.delegate?.failedWithError(code: 0, message: error.localizedDescription )
                 }
+                
+                self.delegate?.hideSpinner()
             }
         }
 }
