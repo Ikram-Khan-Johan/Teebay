@@ -78,4 +78,50 @@ extension String {
             
             return false
         }
+    
+    
+    func toFormattedDate() -> String? {
+        let isoFormatter = ISO8601DateFormatter()
+        isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        
+        guard let date = isoFormatter.date(from: self) else {
+            return nil
+        }
+        
+        let calendar = Calendar.current
+        let day = calendar.component(.day, from: date)
+        let daySuffix = Self.getDaySuffix(for: day)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM yyyy"
+        
+        let monthYear = dateFormatter.string(from: date)
+        return "\(day)\(daySuffix) \(monthYear)"
+    }
+    
+    private static func getDaySuffix(for day: Int) -> String {
+        switch day {
+        case 11, 12, 13:
+            return "th"
+        default:
+            switch day % 10 {
+            case 1: return "st"
+            case 2: return "nd"
+            case 3: return "rd"
+            default: return "th"
+            }
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+

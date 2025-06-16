@@ -12,7 +12,7 @@ class ProductApiService {
     func getProducts() async throws -> Result<AllProductModel, Error> {
             return try await withCheckedThrowingContinuation { continuation in
                 
-                let url = API.shared.auth.login
+                let url = API.shared.product.getProducts
                 AF.request(url,
                            method: .get,
                            encoding: JSONEncoding.default)
