@@ -28,9 +28,18 @@ class MainVC: UIViewController, StoryboardInstantiable {
         ]
 //        viewModel.registerUser(params: params)
         
-        viewModel.register(params: params)
+//        viewModel.register(params: params)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+           guard let vc = AuthVC.instantiateSelf() else {
+                return
+            }
+            
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
    
     }
+    
     
     @IBAction func onTappedMoveButton(_ sender: Any) {
         
@@ -41,6 +50,7 @@ class MainVC: UIViewController, StoryboardInstantiable {
         navigationController?.pushViewController(vc, animated: true)
     }
    
+    
 }
 
 extension MainVC : AuthVMDelegate {

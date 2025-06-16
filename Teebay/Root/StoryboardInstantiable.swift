@@ -29,5 +29,6 @@ extension StoryboardInstantiable where Self: UIViewController {
 enum StoryboardName: String {
     case main = "Main"
     case product = "Product"
+    case auth = "Auth"
 
 }
