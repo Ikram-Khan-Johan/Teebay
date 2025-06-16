@@ -10,6 +10,9 @@
 		1D48EC422E00798400984669 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC412E00798400984669 /* LoginVC.swift */; };
 		1D48EC442E007A7E00984669 /* LoginVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC432E007A7E00984669 /* LoginVM.swift */; };
 		1D48EC462E009C8B00984669 /* LoginResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC452E009C8B00984669 /* LoginResponseModel.swift */; };
+		1D48EC492E00BECC00984669 /* ProductApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC482E00BECC00984669 /* ProductApiService.swift */; };
+		1D48EC4C2E00C10A00984669 /* AllProductModelElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC4B2E00C10A00984669 /* AllProductModelElement.swift */; };
+		1D48EC4F2E00C24C00984669 /* ProductVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC4E2E00C24C00984669 /* ProductVM.swift */; };
 		1D496D3A2DFD56A1002C5926 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D496D2E2DFD56A1002C5926 /* AppDelegate.swift */; };
 		1D496D3B2DFD56A1002C5926 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D496D352DFD56A1002C5926 /* SceneDelegate.swift */; };
 		1D496D3C2DFD56A1002C5926 /* StoryboardInstantiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D496D362DFD56A1002C5926 /* StoryboardInstantiable.swift */; };
@@ -37,6 +40,9 @@
 		1D48EC412E00798400984669 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		1D48EC432E007A7E00984669 /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
 		1D48EC452E009C8B00984669 /* LoginResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponseModel.swift; sourceTree = "<group>"; };
+		1D48EC482E00BECC00984669 /* ProductApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductApiService.swift; sourceTree = "<group>"; };
+		1D48EC4B2E00C10A00984669 /* AllProductModelElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllProductModelElement.swift; sourceTree = "<group>"; };
+		1D48EC4E2E00C24C00984669 /* ProductVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductVM.swift; sourceTree = "<group>"; };
 		1D496D2E2DFD56A1002C5926 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1D496D2F2DFD56A1002C5926 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1D496D302DFD56A1002C5926 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -92,6 +98,30 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		1D48EC472E00BE7400984669 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				1D48EC482E00BECC00984669 /* ProductApiService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		1D48EC4A2E00C0F700984669 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1D48EC4B2E00C10A00984669 /* AllProductModelElement.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1D48EC4D2E00C22500984669 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				1D48EC4E2E00C24C00984669 /* ProductVM.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		1D496D382DFD56A1002C5926 /* Root */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +151,9 @@
 		1D496D432DFD5717002C5926 /* Product */ = {
 			isa = PBXGroup;
 			children = (
+				1D48EC4D2E00C22500984669 /* ViewModel */,
+				1D48EC4A2E00C0F700984669 /* Model */,
+				1D48EC472E00BE7400984669 /* Service */,
 				1D496D442DFD5745002C5926 /* View */,
 			);
 			path = Product;
@@ -365,6 +398,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D48EC492E00BECC00984669 /* ProductApiService.swift in Sources */,
 				1DD4AB4B2DFECEDA00F54D77 /* AuthApiSevice.swift in Sources */,
 				1DD4AB5C2DFEDF7600F54D77 /* Extensions.swift in Sources */,
 				1D496D3A2DFD56A1002C5926 /* AppDelegate.swift in Sources */,
@@ -378,9 +412,11 @@
 				1DD4AB5A2DFEDE8000F54D77 /* RegisterUserModel.swift in Sources */,
 				1DD4AB602DFEE0F900F54D77 /* CommonViewModelDelegate.swift in Sources */,
 				1DD4AB562DFED6C400F54D77 /* ApiService.swift in Sources */,
+				1D48EC4C2E00C10A00984669 /* AllProductModelElement.swift in Sources */,
 				1DD4AB542DFED62900F54D77 /* AlamofireExt.swift in Sources */,
 				1D496D4A2DFD57FD002C5926 /* ProductVC.swift in Sources */,
 				1DD4AB582DFEDA5B00F54D77 /* Api.swift in Sources */,
+				1D48EC4F2E00C24C00984669 /* ProductVM.swift in Sources */,
 				1D48EC422E00798400984669 /* LoginVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

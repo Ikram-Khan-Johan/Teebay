@@ -33,8 +33,8 @@ class LoginVC: UIViewController, StoryboardInstantiable {
         setupUI()
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-                   tapGesture.cancelsTouchesInView = false
-                   view.addGestureRecognizer(tapGesture)
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
         // Do any additional setup after loading the view.
     }
     
@@ -103,44 +103,49 @@ extension LoginVC: UITextFieldDelegate {
 
 // MARK: - AuthVC
 extension LoginVC: LoginVMDelegate {
-
-func failedWithError(code: Int, message: String) {
     
-    DispatchQueue.main.async { [weak self] in
-        guard let self = self else { return }
+    func failedWithError(code: Int, message: String) {
         
-        if !self.hud.isVisible {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            if !self.hud.isVisible {
+                self.hud.show(in: self.view)
+            }
+            
+            self.hud.indicatorView = JGProgressHUDErrorIndicatorView()
+            self.hud.textLabel.text = message
+            self.hud.dismiss(afterDelay: 2)
+        }
+    }
+    
+    func showSpinner() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             self.hud.show(in: self.view)
         }
-        
-        self.hud.indicatorView = JGProgressHUDErrorIndicatorView()
-        self.hud.textLabel.text = message
-        self.hud.dismiss(afterDelay: 2)
     }
-}
-
-func showSpinner() {
-    DispatchQueue.main.async { [weak self] in
-        guard let self = self else { return }
-        self.hud.show(in: self.view)
-    }
-}
-
-func hideSpinner() {
-    DispatchQueue.main.async { [weak self] in
-        guard let self = self else { return }
-        self.hud.dismiss()
-    }
-}
-
-func dataLoaded() {
-    //Do additional stuff after data fetched
     
-    DispatchQueue.main.async { [weak self] in
-        guard let self = self else { return }
-        self.view.makeToast(self.viewModel.loginResponse?.message ?? "", duration: 2.0, position: .bottom)
+    func hideSpinner() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.hud.dismiss()
+        }
     }
-}
-
+    
+    func dataLoaded() {
+        //Do additional stuff after data fetched
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            
+            self.view.makeToast(self.viewModel.loginResponse?.message ?? "", duration: 2.0, position: .bottom)
+            guard let vc = ProductVC.instantiateSelf() else { return }
+            navigationController?.pushViewController(vc, animated: true)
+            
+        }
+    }
+    
 }
 
