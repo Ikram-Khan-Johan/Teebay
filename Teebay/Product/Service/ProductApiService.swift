@@ -48,4 +48,108 @@ class ProductApiService {
                 }
             }
         }
+    
+    
+//    func saveProduct(
+//        title: String,
+//        description: String,
+//        categories: [String],
+//        imageData: Data,
+//        purchasePrice: String,
+//        rentPrice: String,
+//        rentOption: String
+//    ) {
+//        // Replace with your local IP if running on physical device
+//        let url = API.shared.product.createProduct
+//            .replacingOccurrences(of: " ", with: "%20")
+//        
+//        let headers: HTTPHeaders = [
+//            "Content-Type": "multipart/form-data"
+//        ]
+//        
+//        AF.upload(multipartFormData: { formData in
+//               formData.append(Data(title.utf8), withName: "title")
+//               formData.append(Data(description.utf8), withName: "description")
+//           for category in categories {
+//                formData.append(Data(category.utf8), withName: "categories[]")
+//            }
+//            formData.append(Data(purchasePrice.utf8), withName: "purchase_price")
+//            formData.append(Data(rentPrice.utf8), withName: "rent_price")
+//            formData.append(Data(rentOption.utf8), withName: "rent_option")
+//               formData.append(imageData, withName: "product_image", fileName: "product.jpg", mimeType: "image/jpeg")
+//           }, to: url, method: .post, headers: headers)
+//           .validate()
+//           .responseDecodable(of: AllProductModelElement.self) { response in
+//               switch response.result {
+//               case .success(let product):
+//                   print("✅ Product Created: \(product)")
+//               case .failure(let error):
+//                   print("❌ Decoding Error: \(error.localizedDescription)")
+//               }
+//           }
+//    }
+//    
+    func createProduct(
+        title: String,
+        description: String,
+        categories: [String],
+        imageData: Data,
+        purchasePrice: String,
+        rentPrice: String,
+        rentOption: String
+    ) async throws ->  Result<AllProductModelElement, Error> {
+        let url = API.shared.product.createProduct
+            .replacingOccurrences(of: " ", with: "%20")
+
+        let headers: HTTPHeaders = [
+            "Content-Type": "multipart/form-data"
+        ]
+        return try await withCheckedThrowingContinuation { continuation in
+           
+
+            AF.upload(
+                multipartFormData: { formData in
+                       formData.append(Data(title.utf8), withName: "title")
+                       formData.append(Data(description.utf8), withName: "description")
+                   for category in categories {
+                        formData.append(Data(category.utf8), withName: "categories[]")
+                    }
+                    formData.append(Data(purchasePrice.utf8), withName: "purchase_price")
+                    formData.append(Data(rentPrice.utf8), withName: "rent_price")
+                    formData.append(Data(rentOption.utf8), withName: "rent_option")
+                       formData.append(imageData, withName: "product_image", fileName: "product.jpg", mimeType: "image/jpeg")
+                   }, to: url, method: .post, headers: headers)
+            .validate()
+            .responseData { response in
+                guard let statusCode = response.response?.statusCode else {
+                    continuation.resume(throwing: URLError(.badServerResponse))
+                    return
+                }
+
+                switch response.result {
+                case .success(let data):
+                    let decoder = JSONDecoder()
+                    if statusCode == 200 || statusCode == 201  {
+                        do {
+                            let success = try decoder.decode(AllProductModelElement.self, from: data)
+                            continuation.resume(returning: .success(success))
+                        } catch {
+                            continuation.resume(throwing: error)
+                        }
+                    } else {
+                        do {
+                            let errorResponse = try decoder.decode(LoginErrorModel.self, from: data)
+                            continuation.resume(returning: .failure(errorResponse))
+                        } catch {
+                            continuation.resume(throwing: error)
+                        }
+                    }
+
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+
 }

@@ -38,6 +38,8 @@ class CreateProductVC: UIViewController, StoryboardInstantiable {
     @IBOutlet weak var uploadPictureButton: UIButton!
     @IBOutlet weak var takePictureButton: UIButton!
     
+    @IBOutlet weak var imageName: UILabel!
+    
     // MARK: - Price Section
     @IBOutlet weak var priceStackview: UIStackView!
     
@@ -77,6 +79,8 @@ class CreateProductVC: UIViewController, StoryboardInstantiable {
     
     var fileName = ""
     var imageData: Data?
+  
+    private lazy var viewModel = CreateProductVM(self)
     private lazy var hud = JGProgressHUD(style: .dark)
     private let imagePicker = UIImagePickerController()
     
@@ -88,6 +92,7 @@ class CreateProductVC: UIViewController, StoryboardInstantiable {
     }
     
     func setupView() {
+        imageName.text = "No Image Selected"
         backButton.isHidden = true
         titleTF.delegate = self
         perDayButton.setImage(UIImage(named: "pr_radio_blank"), for: .normal)
@@ -98,15 +103,22 @@ class CreateProductVC: UIViewController, StoryboardInstantiable {
            
             self.selectedCategories = Array(selected)
             print("Selected items: \(self.selectedCategories)")
+            if self.selectedCategories.isEmpty == true {
+                self.selectCategoryButton.setTitle("Select Categories", for: .normal)
+            } else {
+               
+                self.selectCategoryButton.setTitle( self.selectedCategories.map(\.self).joined(separator: ", "), for: .normal)
+            }
+            
         }
         dropdown.onDone = {
                self.dropdown.removeFromSuperview()
                // Optionally update UI with selections
            }
-        titleStackview.isHidden = true
+        titleStackview.isHidden = false
         categoryStackview.isHidden = true
         descriptionStackview.isHidden = true
-        uploadImageStackview.isHidden = false
+        uploadImageStackview.isHidden = true
         priceStackview.isHidden = true
         summaryStackview.isHidden = true
         progreessView.progress = 0.167
@@ -162,7 +174,7 @@ class CreateProductVC: UIViewController, StoryboardInstantiable {
     }
     
     @IBAction func onTappedBackButton(_ sender: Any) {
-        
+        nextButton.setTitle("Next", for: .normal)
         switch stepCount {
         case 1:
             
@@ -202,7 +214,7 @@ class CreateProductVC: UIViewController, StoryboardInstantiable {
     }
     
     @IBAction func onTappedNextButton(_ sender: Any) {
-        
+        nextButton.setTitle("Next", for: .normal)
         switch stepCount {
         case 1:
             if titleTF.text?.isEmpty == true {
@@ -238,7 +250,7 @@ class CreateProductVC: UIViewController, StoryboardInstantiable {
             
         case 4:
             
-            if isImageUploaded == false {
+            if imageData == nil {
                 showToast(message: "Please upload a product image")
                 return
             } else {
@@ -258,10 +270,32 @@ class CreateProductVC: UIViewController, StoryboardInstantiable {
             }
             stepCount += 1
            
+            nextButton.setTitle("Submit", for: .normal)
+            
+            titleLabel.text = "Title: " + (titleTF.text ?? "")
+            descriptionLabel.text = "Description: " + descriptionTExtview.text
+            categoryLabel.text = "Categories: " + selectedCategories.map(\.self).joined(separator: ", ")
+            priceLabel.text = "Purchase Price: " + (purchasePriceTF.text ?? "")
+            toRentLabel.text = "To Rent: " + (rentPriceTF.text ?? "")
+            rentTypeLabel.text = "Rent Option: " + renType
             
         case 6:
             // Call Create Product API
-            break
+            
+            let title = titleTF.text ?? ""
+            let description = descriptionTExtview.text ?? ""
+            let purchasePrice = purchasePriceTF.text ?? ""
+            let rentPrice = rentPriceTF.text ?? ""
+            let renType = self.renType
+            let selectedCats = selectedCategories
+            var image : Data = Data()
+            
+            
+            if let selectedImage = imageData {
+                image = selectedImage
+            }
+           
+            viewModel.createProduct(title: title, description: description, categories: selectedCats, imageData: image, purchasePrice: purchasePrice, rentPrice: rentPrice , rentOption: renType)
         default:
             stepCount -= 1
         }
@@ -283,8 +317,6 @@ class CreateProductVC: UIViewController, StoryboardInstantiable {
                 alert.popoverPresentationController?.sourceView = self.view
                 alert.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
                 alert.popoverPresentationController?.permittedArrowDirections = []
-                
-               
                 
                 present(alert, animated: true, completion: nil)
             }
@@ -361,9 +393,13 @@ extension CreateProductVC: UIImagePickerControllerDelegate & UINavigationControl
 //            self.isSaveEnable = true
 
             if let imageData = self.imageData {
-                self.hud = JGProgressHUD(style: .dark)
-                self.hud.show(in: self.view)
+//                self.hud = JGProgressHUD(style: .dark)
+//                self.hud.show(in: self.view)
 //                self.viewModel?.updateImage(imgData: imageData, fileName: self.fileName)
+                self.imageName.text = "Image Name:" + self.fileName
+                
+            } else {
+                self.imageName.text = "No Image Selected"
             }
         }
     }
@@ -373,4 +409,45 @@ extension CreateProductVC: UIImagePickerControllerDelegate & UINavigationControl
     }
     
     
+}
+
+extension CreateProductVC : CreateProductVMDelegate {
+    
+    func failedWithError(code: Int, message: String) {
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            if !self.hud.isVisible {
+                self.hud.show(in: self.view)
+            }
+            
+            self.hud.indicatorView = JGProgressHUDErrorIndicatorView()
+            self.hud.textLabel.text = message
+            self.hud.dismiss(afterDelay: 2)
+        }
+    }
+    
+    func showSpinner() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.hud.show(in: self.view)
+        }
+    }
+    
+    func hideSpinner() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.hud.dismiss()
+        }
+    }
+    
+    func dataLoaded() {
+        //Do additional stuff after data fetched
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            guard let vc = ProductVC.instantiateSelf() else { return }
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
 }

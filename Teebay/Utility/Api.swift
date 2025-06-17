@@ -24,4 +24,5 @@ struct AuthApi {
 
 struct ProductApi {
     let getProducts = baseUrl + "api/products/"
+    let createProduct = baseUrl + "api/products/"
 }
