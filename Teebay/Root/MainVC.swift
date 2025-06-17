@@ -31,7 +31,7 @@ class MainVC: UIViewController, StoryboardInstantiable {
 //        viewModel.register(params: params)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-           guard let vc = AuthVC.instantiateSelf() else {
+           guard let vc = CreateProductVC.instantiateSelf() else {
                 return
             }
             

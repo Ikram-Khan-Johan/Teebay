@@ -13,27 +13,45 @@ class MultiSelectDropdown: UIView, UITableViewDelegate, UITableViewDataSource {
     var selectedItems: Set<String> = []
 
     var onSelectionChanged: ((Set<String>) -> Void)?
+    var onDone: (() -> Void)?  // Callback for dismissal
 
     private let tableView = UITableView()
+    private let doneButton = UIButton(type: .system)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupTableView()
+        setupViews()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupTableView()
+        setupViews()
     }
 
-    private func setupTableView() {
+    private func setupViews() {
+        // Configure table view
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.allowsMultipleSelection = true
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        tableView.frame = self.bounds
-        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(tableView)
+
+        // Configure Done button
+        doneButton.setTitle("Done", for: .normal)
+        doneButton.addTarget(self, action: #selector(doneTapped), for: .touchUpInside)
+        addSubview(doneButton)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let buttonHeight: CGFloat = 44
+        doneButton.frame = CGRect(x: 0, y: bounds.height - buttonHeight, width: bounds.width, height: buttonHeight)
+        tableView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height - buttonHeight)
+    }
+
+    @objc private func doneTapped() {
+        onDone?()
     }
 
     // MARK: - TableView
@@ -52,14 +70,14 @@ class MultiSelectDropdown: UIView, UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = items[indexPath.row]
-        selectedItems.insert(item)
-        onSelectionChanged?(selectedItems)
-        tableView.reloadRows(at: [indexPath], with: .none)
-    }
 
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let item = items[indexPath.row]
-        selectedItems.remove(item)
+        if selectedItems.contains(item) {
+            selectedItems.remove(item)
+            tableView.deselectRow(at: indexPath, animated: true)
+        } else {
+            selectedItems.insert(item)
+        }
+
         onSelectionChanged?(selectedItems)
         tableView.reloadRows(at: [indexPath], with: .none)
     }

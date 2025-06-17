@@ -6,9 +6,15 @@
 //
 
 import UIKit
+import Toast_Swift
 
-class CreateProductVC: UIViewController {
+class CreateProductVC: UIViewController, StoryboardInstantiable {
+    static var storyboardName: StoryboardName
+    {
+        return .product
+    }
 
+    
     // MARK: - Progress View
     @IBOutlet weak var progreessView: UIProgressView!
     
@@ -58,16 +64,70 @@ class CreateProductVC: UIViewController {
     
     @IBOutlet weak var rentTypeLabel: UILabel!
     
+    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var nextButton: UIButton!
+    
+    let dropdown = MultiSelectDropdown()
+    var stepCount: Int = 1
+    var categorySelected : Bool = false
+    var isImageUploaded : Bool = true
+    var renType: String = ""
+    var selectedCategories: [String] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        setupView()
     }
     
+    func setupView() {
+        backButton.isHidden = true
+        titleTF.delegate = self
+        perDayButton.setImage(UIImage(named: "pr_radio_blank"), for: .normal)
+        perHourButton.setImage(UIImage(named: "pr_radio_blank"), for: .normal)
+        dropdown.items = ["Math", "English", "Science", "History"]
+        dropdown.frame = CGRect(x: 40, y: 400, width: 240, height: 200)
+        dropdown.onSelectionChanged = { selected in
+           
+            self.selectedCategories = Array(selected)
+            print("Selected items: \(self.selectedCategories)")
+        }
+        dropdown.onDone = {
+               self.dropdown.removeFromSuperview()
+               // Optionally update UI with selections
+           }
+        titleStackview.isHidden = false
+        categoryStackview.isHidden = true
+        descriptionStackview.isHidden = true
+        uploadImageStackview.isHidden = true
+        priceStackview.isHidden = true
+        summaryStackview.isHidden = true
+        progreessView.progress = 0.167
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+                   tapGesture.cancelsTouchesInView = false
+                   view.addGestureRecognizer(tapGesture)
+//        view.addSubview(dropdown)
+    }
+    
+    
+    @objc func dismissKeyboard() {
+            view.endEditing(true)
+        }
+    
+    
+    func showToast(message : String) {
+        self.view.makeToast(message, duration: 2.0, position: .bottom)
+    }
   
     
     @IBAction func titleTF(_ sender: Any) {
         
+    }
+    
+    @IBAction func onTappedCategoryButton(_ sender: Any) {
+        
+        view.addSubview(dropdown)
     }
     
     @IBAction func onTappedTakePictureButton(_ sender: Any) {
@@ -80,17 +140,133 @@ class CreateProductVC: UIViewController {
     
     @IBAction func onTappedPerHourButton(_ sender: Any) {
         
+        perHourButton.setImage(UIImage(named: "pr_radio_fill"), for: .normal)
+        perDayButton.setImage(UIImage(named: "pr_radio_blank"), for: .normal)
+        
+        renType = "Hour"
+    
     }
     
     @IBAction func onTappedPerDayButton(_ sender: Any) {
-        
+        perHourButton.setImage(UIImage(named: "pr_radio_blank"), for: .normal)
+        perDayButton.setImage(UIImage(named: "pr_radio_fill"), for: .normal)
+
+        renType = "Day"
     }
     
-    
     @IBAction func onTappedBackButton(_ sender: Any) {
+        
+        switch stepCount {
+        case 1:
+            
+            titleStackview.isHidden = true
+            categoryStackview.isHidden = false
+            
+        case 2:
+            
+            categoryStackview.isHidden = true
+            titleStackview.isHidden = false
+            backButton.isHidden = true
+            
+        case 3:
+            
+            descriptionStackview.isHidden = true
+            categoryStackview.isHidden = false
+            
+        case 4:
+            
+            uploadImageStackview.isHidden = true
+            descriptionStackview.isHidden = false
+            
+        case 5:
+            priceStackview.isHidden = true
+            uploadImageStackview.isHidden = false
+            
+        case 6:
+            summaryStackview.isHidden = true
+            priceStackview.isHidden = false
+            
+        default:
+            stepCount -= 1
+        }
+        
+        stepCount -= 1
+        progreessView.progress -= ( 1.00 / 6.00)
     }
     
     @IBAction func onTappedNextButton(_ sender: Any) {
+        
+        switch stepCount {
+        case 1:
+            if titleTF.text?.isEmpty == true {
+                showToast(message: "Enter title Please")
+                return
+            } else {
+                titleStackview.isHidden = true
+                categoryStackview.isHidden = false
+                backButton.isHidden = false
+            }
+            stepCount += 1
+            
+        case 2:
+            if selectedCategories.count == 0 {
+                showToast(message: "Select Category Please")
+                return
+            } else {
+                self.dropdown.removeFromSuperview()
+                categoryStackview.isHidden = true
+                descriptionStackview.isHidden = false
+                
+            }
+            stepCount += 1
+        case 3:
+            if descriptionTExtview.text.isEmpty == true {
+                showToast(message: "Please Enter Description")
+                return
+            } else {
+                descriptionStackview.isHidden = true
+                uploadImageStackview.isHidden = false
+            }
+            stepCount += 1
+            
+        case 4:
+            
+            if isImageUploaded == false {
+                showToast(message: "Please upload a product image")
+                return
+            } else {
+                uploadImageStackview.isHidden = true
+                priceStackview.isHidden = false
+            }
+            stepCount += 1
+            
+        case 5:
+            
+            if purchasePriceTF.text?.isEmpty == true || rentPriceTF.text?.isEmpty == true || renType.isEmpty {
+                showToast(message: "Please enter all the required fields")
+                return
+            } else {
+                priceStackview.isHidden = true
+                summaryStackview.isHidden = false
+            }
+            stepCount += 1
+           
+            
+        case 6:
+            // Call Create Product API
+            break
+        default:
+            stepCount -= 1
+        }
+        progreessView.progress += ( 1.00 / 6.00)
     }
     
+}
+
+extension CreateProductVC: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder() // dismiss keyboard
+        return true
+    }
 }
