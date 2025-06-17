@@ -15,6 +15,8 @@
 		1D48EC4F2E00C24C00984669 /* ProductVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC4E2E00C24C00984669 /* ProductVM.swift */; };
 		1D48EC552E00CBB500984669 /* ProductTVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D48EC542E00CBB500984669 /* ProductTVC.xib */; };
 		1D48EC562E00CBB500984669 /* ProductTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC532E00CBB500984669 /* ProductTVC.swift */; };
+		1D48EC5E2E01472000984669 /* MultiSelectDropdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC5D2E01472000984669 /* MultiSelectDropdown.swift */; };
+		1D48EC602E0166D500984669 /* CreateProductVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC5F2E0166D500984669 /* CreateProductVC.swift */; };
 		1D496D3A2DFD56A1002C5926 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D496D2E2DFD56A1002C5926 /* AppDelegate.swift */; };
 		1D496D3B2DFD56A1002C5926 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D496D352DFD56A1002C5926 /* SceneDelegate.swift */; };
 		1D496D3C2DFD56A1002C5926 /* StoryboardInstantiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D496D362DFD56A1002C5926 /* StoryboardInstantiable.swift */; };
@@ -47,6 +49,8 @@
 		1D48EC4E2E00C24C00984669 /* ProductVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductVM.swift; sourceTree = "<group>"; };
 		1D48EC532E00CBB500984669 /* ProductTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTVC.swift; sourceTree = "<group>"; };
 		1D48EC542E00CBB500984669 /* ProductTVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductTVC.xib; sourceTree = "<group>"; };
+		1D48EC5D2E01472000984669 /* MultiSelectDropdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectDropdown.swift; sourceTree = "<group>"; };
+		1D48EC5F2E0166D500984669 /* CreateProductVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductVC.swift; sourceTree = "<group>"; };
 		1D496D2E2DFD56A1002C5926 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1D496D2F2DFD56A1002C5926 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1D496D302DFD56A1002C5926 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -194,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				1D496D492DFD57FD002C5926 /* ProductVC.swift */,
+				1D48EC5F2E0166D500984669 /* CreateProductVC.swift */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -247,6 +252,7 @@
 		1DD4AB522DFED60A00F54D77 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				1D48EC5D2E01472000984669 /* MultiSelectDropdown.swift */,
 				1DD4AB5F2DFEE0F900F54D77 /* CommonViewModelDelegate.swift */,
 				1DD4AB5B2DFEDF7600F54D77 /* Extensions.swift */,
 				1DD4AB552DFED6C400F54D77 /* ApiService.swift */,
@@ -423,6 +429,8 @@
 				1D48EC462E009C8B00984669 /* LoginResponseModel.swift in Sources */,
 				1DD4AB662DFF388000F54D77 /* AuthVC.swift in Sources */,
 				1D496D3B2DFD56A1002C5926 /* SceneDelegate.swift in Sources */,
+				1D48EC602E0166D500984669 /* CreateProductVC.swift in Sources */,
+				1D48EC5E2E01472000984669 /* MultiSelectDropdown.swift in Sources */,
 				1DD4AB5E2DFEE09400F54D77 /* AuthVM.swift in Sources */,
 				1D496D3C2DFD56A1002C5926 /* StoryboardInstantiable.swift in Sources */,
 				1DD4AB5A2DFEDE8000F54D77 /* RegisterUserModel.swift in Sources */,
