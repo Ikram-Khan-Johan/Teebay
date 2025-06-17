@@ -7,6 +7,7 @@
 
 import UIKit
 import Toast_Swift
+import JGProgressHUD
 
 class CreateProductVC: UIViewController, StoryboardInstantiable {
     static var storyboardName: StoryboardName
@@ -74,6 +75,11 @@ class CreateProductVC: UIViewController, StoryboardInstantiable {
     var renType: String = ""
     var selectedCategories: [String] = []
     
+    var fileName = ""
+    var imageData: Data?
+    private lazy var hud = JGProgressHUD(style: .dark)
+    private let imagePicker = UIImagePickerController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -97,10 +103,10 @@ class CreateProductVC: UIViewController, StoryboardInstantiable {
                self.dropdown.removeFromSuperview()
                // Optionally update UI with selections
            }
-        titleStackview.isHidden = false
+        titleStackview.isHidden = true
         categoryStackview.isHidden = true
         descriptionStackview.isHidden = true
-        uploadImageStackview.isHidden = true
+        uploadImageStackview.isHidden = false
         priceStackview.isHidden = true
         summaryStackview.isHidden = true
         progreessView.progress = 0.167
@@ -108,6 +114,7 @@ class CreateProductVC: UIViewController, StoryboardInstantiable {
                    tapGesture.cancelsTouchesInView = false
                    view.addGestureRecognizer(tapGesture)
 //        view.addSubview(dropdown)
+        imagePicker.delegate = self
     }
     
     
@@ -131,11 +138,11 @@ class CreateProductVC: UIViewController, StoryboardInstantiable {
     }
     
     @IBAction func onTappedTakePictureButton(_ sender: Any) {
-        
+        openCamera()
     }
     
     @IBAction func onTappedUploadPictureButton(_ sender: Any) {
-        
+        openGallary()
     }
     
     @IBAction func onTappedPerHourButton(_ sender: Any) {
@@ -261,6 +268,33 @@ class CreateProductVC: UIViewController, StoryboardInstantiable {
         progreessView.progress += ( 1.00 / 6.00)
     }
     
+    private func openCamera() {
+            if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
+                imagePicker.sourceType = .camera
+    //            imagePicker.allowsEditing = true
+                present(imagePicker, animated: true, completion: nil)
+                
+            } else {
+                
+                let alert  = UIAlertController(title: "No Camera", message: "You don't have camera", preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: "No Camera", style: .default, handler: nil))
+                
+                alert.popoverPresentationController?.sourceView = self.view
+                alert.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
+                alert.popoverPresentationController?.permittedArrowDirections = []
+                
+               
+                
+                present(alert, animated: true, completion: nil)
+            }
+        }
+        
+        private func openGallary() {
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.allowsEditing = true
+            present(imagePicker, animated: true, completion: nil)
+        }
 }
 
 extension CreateProductVC: UITextFieldDelegate {
@@ -269,4 +303,74 @@ extension CreateProductVC: UITextFieldDelegate {
         textField.resignFirstResponder() // dismiss keyboard
         return true
     }
+}
+
+
+extension CreateProductVC: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let image = info[.editedImage] as? UIImage {
+//            profileImage.image = image
+            
+            if picker.sourceType == UIImagePickerController.SourceType.camera {
+                
+                let imgName = "\(UUID().uuidString).jpeg"
+                let documentDirectory = NSTemporaryDirectory()
+                let localPath = documentDirectory.appending(imgName)
+                
+                let data = image.jpegData(compressionQuality: 0.3)! as NSData
+                data.write(toFile: localPath, atomically: true)
+                fileName = URL.init(fileURLWithPath: localPath).lastPathComponent
+                
+//                guard let image_data: Data = (image.resizeWithWidth(width: 150)?.pngData()) else { print("no imageData"); return }
+                imageData = image.pngData()
+                
+            } else if let file_name = info[.imageURL] as? URL  {
+                fileName = file_name.lastPathComponent
+//                guard let image_data: Data = (image.resizeWithWidth(width: 150)?.pngData()) else { print("no imageData"); return }
+                imageData = image.pngData()
+            }
+            
+        } else if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+//            profileImage.image = image
+            
+            if picker.sourceType == UIImagePickerController.SourceType.camera {
+                
+                let imgName = "\(UUID().uuidString).jpeg"
+                let documentDirectory = NSTemporaryDirectory()
+                let localPath = documentDirectory.appending(imgName)
+                
+                let data = image.jpegData(compressionQuality: 0.3)! as NSData
+                data.write(toFile: localPath, atomically: true)
+                fileName = URL.init(fileURLWithPath: localPath).lastPathComponent
+                
+//                guard let image_data: Data = (image.resizeWithWidth(width: 150)?.pngData()) else { print("no imageData"); return }
+                imageData = image.pngData()
+                
+            } else if let file_name = info[.imageURL] as? URL  {
+                fileName = file_name.lastPathComponent
+//                guard let image_data: Data = (image.resizeWithWidth(width: 150)?.pngData()) else { print("no imageData"); return }
+                imageData = image.pngData()
+            }
+        }
+        
+        dismiss(animated: true) {
+            [weak self] in
+            guard let self = self else { return }
+//            self.isSaveEnable = true
+
+            if let imageData = self.imageData {
+                self.hud = JGProgressHUD(style: .dark)
+                self.hud.show(in: self.view)
+//                self.viewModel?.updateImage(imgData: imageData, fileName: self.fileName)
+            }
+        }
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
 }
