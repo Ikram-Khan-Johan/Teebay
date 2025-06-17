@@ -88,7 +88,50 @@ class ProductApiService {
 //               }
 //           }
 //    }
-//    
+//
+    
+    func getProductCategories() async throws -> Result<ProductCategoriesModel, Error> {
+        
+            return try await withCheckedThrowingContinuation { continuation in
+                
+                let url = API.shared.product.getProductCategories
+                
+                AF.request(url,
+                           method: .get,
+                           encoding: JSONEncoding.default)
+                .validate(contentType: ["application/json"])
+                .responseData { response in
+                    guard let statusCode = response.response?.statusCode else {
+                        continuation.resume(throwing: URLError(.badServerResponse))
+                        return
+                    }
+
+                    switch response.result {
+                    case .success(let data):
+                        let decoder = JSONDecoder()
+                        if statusCode == 200 || statusCode == 201  {
+                            do {
+                                let success = try decoder.decode(ProductCategoriesModel.self, from: data)
+                                continuation.resume(returning: .success(success))
+                            } catch {
+                                continuation.resume(throwing: error)
+                            }
+                        } else {
+                            do {
+                                let errorResponse = try decoder.decode(LoginErrorModel.self, from: data)
+                                continuation.resume(returning: .failure(errorResponse))
+                            } catch {
+                                continuation.resume(throwing: error)
+                            }
+                        }
+
+                    case .failure(let error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+            }
+        }
+    
     func createProduct(
         title: String,
         description: String,
@@ -96,7 +139,8 @@ class ProductApiService {
         imageData: Data,
         purchasePrice: String,
         rentPrice: String,
-        rentOption: String
+        rentOption: String,
+        sellerId: String
     ) async throws ->  Result<AllProductModelElement, Error> {
         let url = API.shared.product.createProduct
             .replacingOccurrences(of: " ", with: "%20")
@@ -109,6 +153,7 @@ class ProductApiService {
 
             AF.upload(
                 multipartFormData: { formData in
+                    formData.append(Data(sellerId.utf8), withName: "seller")
                        formData.append(Data(title.utf8), withName: "title")
                        formData.append(Data(description.utf8), withName: "description")
                    for category in categories {
@@ -117,7 +162,7 @@ class ProductApiService {
                     formData.append(Data(purchasePrice.utf8), withName: "purchase_price")
                     formData.append(Data(rentPrice.utf8), withName: "rent_price")
                     formData.append(Data(rentOption.utf8), withName: "rent_option")
-                       formData.append(imageData, withName: "product_image", fileName: "product.jpg", mimeType: "image/jpeg")
+                       formData.append(imageData, withName: "product_image", fileName: "product_1.jpg", mimeType: "image/jpeg")
                    }, to: url, method: .post, headers: headers)
             .validate()
             .responseData { response in
@@ -152,4 +197,5 @@ class ProductApiService {
         }
     }
 
+    
 }

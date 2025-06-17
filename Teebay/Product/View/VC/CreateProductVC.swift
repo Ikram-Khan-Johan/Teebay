@@ -89,6 +89,7 @@ class CreateProductVC: UIViewController, StoryboardInstantiable {
 
         // Do any additional setup after loading the view.
         setupView()
+        viewModel.getProductCategories()
     }
     
     func setupView() {
@@ -97,7 +98,7 @@ class CreateProductVC: UIViewController, StoryboardInstantiable {
         titleTF.delegate = self
         perDayButton.setImage(UIImage(named: "pr_radio_blank"), for: .normal)
         perHourButton.setImage(UIImage(named: "pr_radio_blank"), for: .normal)
-        dropdown.items = ["Math", "English", "Science", "History"]
+        
         dropdown.frame = CGRect(x: 40, y: 400, width: 240, height: 200)
         dropdown.onSelectionChanged = { selected in
            
@@ -162,7 +163,7 @@ class CreateProductVC: UIViewController, StoryboardInstantiable {
         perHourButton.setImage(UIImage(named: "pr_radio_fill"), for: .normal)
         perDayButton.setImage(UIImage(named: "pr_radio_blank"), for: .normal)
         
-        renType = "Hour"
+        renType = "hour"
     
     }
     
@@ -170,7 +171,7 @@ class CreateProductVC: UIViewController, StoryboardInstantiable {
         perHourButton.setImage(UIImage(named: "pr_radio_blank"), for: .normal)
         perDayButton.setImage(UIImage(named: "pr_radio_fill"), for: .normal)
 
-        renType = "Day"
+        renType = "day"
     }
     
     @IBAction func onTappedBackButton(_ sender: Any) {
@@ -286,7 +287,7 @@ class CreateProductVC: UIViewController, StoryboardInstantiable {
             let description = descriptionTExtview.text ?? ""
             let purchasePrice = purchasePriceTF.text ?? ""
             let rentPrice = rentPriceTF.text ?? ""
-            let renType = self.renType
+            let renType = self.renType 
             let selectedCats = selectedCategories
             var image : Data = Data()
             
@@ -295,7 +296,7 @@ class CreateProductVC: UIViewController, StoryboardInstantiable {
                 image = selectedImage
             }
            
-            viewModel.createProduct(title: title, description: description, categories: selectedCats, imageData: image, purchasePrice: purchasePrice, rentPrice: rentPrice , rentOption: renType)
+            viewModel.createProduct(title: title, description: description, categories: selectedCats, imageData: image, purchasePrice: purchasePrice, rentPrice: rentPrice , rentOption: renType, sellerId: "2")
         default:
             stepCount -= 1
         }
@@ -412,6 +413,14 @@ extension CreateProductVC: UIImagePickerControllerDelegate & UINavigationControl
 }
 
 extension CreateProductVC : CreateProductVMDelegate {
+    
+    func categoriesFetched() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.dropdown.items = viewModel.productCategories.map({ $0.value ?? "" })
+        }
+    }
+    
     
     func failedWithError(code: Int, message: String) {
         
