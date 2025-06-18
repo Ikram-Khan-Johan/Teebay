@@ -30,5 +30,6 @@ enum StoryboardName: String {
     case main = "Main"
     case product = "Product"
     case auth = "Auth"
+    case purchase = "Purchase"
 
 }

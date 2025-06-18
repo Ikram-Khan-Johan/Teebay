@@ -22,6 +22,11 @@
 		1D48EC662E02B44700984669 /* EditProductVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC652E02B44700984669 /* EditProductVC.swift */; };
 		1D48EC682E02CC1400984669 /* EditProductVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC672E02CC0900984669 /* EditProductVM.swift */; };
 		1D48EC6A2E02EC5200984669 /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC692E02EC5200984669 /* SideMenuViewController.swift */; };
+		1D48EC742E030DFB00984669 /* Purchase.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D48EC732E030DFB00984669 /* Purchase.storyboard */; };
+		1D48EC762E03111A00984669 /* PurchaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC752E03111A00984669 /* PurchaseVC.swift */; };
+		1D48EC782E03132C00984669 /* TransactionApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC772E03132200984669 /* TransactionApiService.swift */; };
+		1D48EC7A2E0317CE00984669 /* RentalRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC792E0317CE00984669 /* RentalRequestModel.swift */; };
+		1D48EC7C2E03182800984669 /* PurchaseVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC7B2E03182200984669 /* PurchaseVM.swift */; };
 		1D496D3A2DFD56A1002C5926 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D496D2E2DFD56A1002C5926 /* AppDelegate.swift */; };
 		1D496D3B2DFD56A1002C5926 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D496D352DFD56A1002C5926 /* SceneDelegate.swift */; };
 		1D496D3C2DFD56A1002C5926 /* StoryboardInstantiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D496D362DFD56A1002C5926 /* StoryboardInstantiable.swift */; };
@@ -61,6 +66,11 @@
 		1D48EC652E02B44700984669 /* EditProductVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProductVC.swift; sourceTree = "<group>"; };
 		1D48EC672E02CC0900984669 /* EditProductVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProductVM.swift; sourceTree = "<group>"; };
 		1D48EC692E02EC5200984669 /* SideMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
+		1D48EC732E030DFB00984669 /* Purchase.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Purchase.storyboard; sourceTree = "<group>"; };
+		1D48EC752E03111A00984669 /* PurchaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseVC.swift; sourceTree = "<group>"; };
+		1D48EC772E03132200984669 /* TransactionApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionApiService.swift; sourceTree = "<group>"; };
+		1D48EC792E0317CE00984669 /* RentalRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RentalRequestModel.swift; sourceTree = "<group>"; };
+		1D48EC7B2E03182200984669 /* PurchaseVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseVM.swift; sourceTree = "<group>"; };
 		1D496D2E2DFD56A1002C5926 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1D496D2F2DFD56A1002C5926 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1D496D302DFD56A1002C5926 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -152,6 +162,66 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		1D48EC6B2E030D7000984669 /* Purchase */ = {
+			isa = PBXGroup;
+			children = (
+				1D48EC702E030DC500984669 /* Model */,
+				1D48EC6F2E030DBD00984669 /* ViewModel */,
+				1D48EC6E2E030DA500984669 /* Views */,
+				1D48EC6C2E030D8400984669 /* Service */,
+			);
+			path = Purchase;
+			sourceTree = "<group>";
+		};
+		1D48EC6C2E030D8400984669 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				1D48EC772E03132200984669 /* TransactionApiService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		1D48EC6E2E030DA500984669 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1D48EC722E030DE400984669 /* ViewController */,
+				1D48EC712E030DD900984669 /* Storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		1D48EC6F2E030DBD00984669 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				1D48EC7B2E03182200984669 /* PurchaseVM.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		1D48EC702E030DC500984669 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1D48EC792E0317CE00984669 /* RentalRequestModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1D48EC712E030DD900984669 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				1D48EC732E030DFB00984669 /* Purchase.storyboard */,
+			);
+			path = Storyboard;
+			sourceTree = "<group>";
+		};
+		1D48EC722E030DE400984669 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1D48EC752E03111A00984669 /* PurchaseVC.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		1D496D382DFD56A1002C5926 /* Root */ = {
 			isa = PBXGroup;
 			children = (
@@ -171,6 +241,7 @@
 		1D496D392DFD56A1002C5926 /* Teebay */ = {
 			isa = PBXGroup;
 			children = (
+				1D48EC6B2E030D7000984669 /* Purchase */,
 				1DD4AB522DFED60A00F54D77 /* Utility */,
 				1DD4AB3E2DFECE5700F54D77 /* Auth */,
 				1D496D432DFD5717002C5926 /* Product */,
@@ -377,6 +448,7 @@
 				1DD4AB642DFF387000F54D77 /* Auth.storyboard in Resources */,
 				1D48EC552E00CBB500984669 /* ProductTVC.xib in Resources */,
 				1D496D472DFD5762002C5926 /* Product.storyboard in Resources */,
+				1D48EC742E030DFB00984669 /* Purchase.storyboard in Resources */,
 				1D496D412DFD56A1002C5926 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -439,15 +511,19 @@
 				1DD4AB5C2DFEDF7600F54D77 /* Extensions.swift in Sources */,
 				1D496D3A2DFD56A1002C5926 /* AppDelegate.swift in Sources */,
 				1D48EC6A2E02EC5200984669 /* SideMenuViewController.swift in Sources */,
+				1D48EC762E03111A00984669 /* PurchaseVC.swift in Sources */,
 				1D48EC662E02B44700984669 /* EditProductVC.swift in Sources */,
 				1D496D4C2DFD58D5002C5926 /* MainVC.swift in Sources */,
 				1D48EC442E007A7E00984669 /* LoginVM.swift in Sources */,
+				1D48EC7C2E03182800984669 /* PurchaseVM.swift in Sources */,
 				1D48EC562E00CBB500984669 /* ProductTVC.swift in Sources */,
 				1D48EC462E009C8B00984669 /* LoginResponseModel.swift in Sources */,
+				1D48EC782E03132C00984669 /* TransactionApiService.swift in Sources */,
 				1D48EC622E020DA100984669 /* CreateProductVM.swift in Sources */,
 				1DD4AB662DFF388000F54D77 /* AuthVC.swift in Sources */,
 				1D496D3B2DFD56A1002C5926 /* SceneDelegate.swift in Sources */,
 				1D48EC602E0166D500984669 /* CreateProductVC.swift in Sources */,
+				1D48EC7A2E0317CE00984669 /* RentalRequestModel.swift in Sources */,
 				1D48EC5E2E01472000984669 /* MultiSelectDropdown.swift in Sources */,
 				1DD4AB5E2DFEE09400F54D77 /* AuthVM.swift in Sources */,
 				1D496D3C2DFD56A1002C5926 /* StoryboardInstantiable.swift in Sources */,

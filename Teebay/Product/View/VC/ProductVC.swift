@@ -37,6 +37,7 @@ class ProductVC: UIViewController, StoryboardInstantiable {
         tableView.register(ProductTVC.nib, forCellReuseIdentifier: ProductTVC.identifier)
         // Do any additional setup after loading the view.
         pageTitle.text = pageType == .myProduct ? "My Products" : "All Products"
+        addButton.isHidden = pageType == .allProduct
     }
     
     @IBAction func onTappedMenuButton(_ sender: Any) {
@@ -194,9 +195,16 @@ extension ProductVC : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let product = viewModel.products[indexPath.row]
-        guard let vc = EditProductVC.instantiateSelf() else { return }
-        vc.product = product
-        navigationController?.pushViewController(vc, animated: true)
+        if pageType == .myProduct {
+            guard let vc = EditProductVC.instantiateSelf() else { return }
+            vc.product = product
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            guard let vc = PurchaseVC.instantiateSelf() else { return }
+            vc.product = product
+            navigationController?.pushViewController(vc, animated: true)
+        }
+       
     }
     
 }

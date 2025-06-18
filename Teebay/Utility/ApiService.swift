@@ -45,5 +45,6 @@ class ApiService {
   
     lazy var auth = AuthApiSevice()
     lazy var product = ProductApiService()
+    lazy var transaction = TransactionApiService()
    
 }

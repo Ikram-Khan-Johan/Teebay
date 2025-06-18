@@ -1,0 +1,122 @@
+//
+//  PurchaseVC.swift
+//  Teebay
+//
+//  Created by Ikram Khan Johan on 18/6/25.
+//
+
+import UIKit
+import JGProgressHUD
+
+class PurchaseVC: UIViewController, StoryboardInstantiable {
+    static var storyboardName: StoryboardName
+    {
+        return .purchase
+    }
+
+    var product : AllProductModelElement?
+    
+    @IBOutlet weak var NameLabel: UILabel!
+    
+    @IBOutlet weak var catogoryLabel: UILabel!
+    
+    @IBOutlet weak var priceLabel: UILabel!
+    
+    @IBOutlet weak var descriptionLabel: UILabel!
+    
+    @IBOutlet weak var rentButton: UIButton!
+    
+    @IBOutlet weak var buyButton: UIButton!
+    
+    private lazy var hud: JGProgressHUD = JGProgressHUD(style: .dark)
+    private lazy var viewModel = PurchaseVM(self)
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        rentButton.layer.cornerRadius = 8
+        buyButton.layer.cornerRadius = 8
+        // Do any additional setup after loading the view.
+        setupData()
+    }
+    
+    
+    @IBAction func onTappedRentButton(_ sender: Any) {
+        let rental = RentalRequestMdoel(renter: product?.seller ?? 0, product: product?.id ?? 0, rent_option: product?.rentOption ?? "", rent_period_start_date: "2025-06-18T15:47:39.876Z", rent_period_end_date: "2025-06-18T15:47:39.876Z")
+        viewModel.postRental(rental: rental)
+        
+    }
+    
+    @IBAction func onTappedBuyButton(_ sender: Any) {
+        
+    }
+    
+    func setupData() {
+        NameLabel.text = product?.title ?? ""
+        catogoryLabel.text = product?.categories?.joined(separator: ", ")
+        priceLabel.text = product?.purchasePrice ?? ""
+        descriptionLabel.text = product?.description ?? ""
+        
+    }
+    
+    func openBuyActionSheet(productId: String) {
+        
+        let alertController = UIAlertController(title: "Are you sure you want to buy this product?", message: nil, preferredStyle: (UIDevice.current.userInterfaceIdiom == .pad)
+                                                ? .alert
+                                                : .actionSheet)
+        
+        
+        let action1 = UIAlertAction(title: "Yes", style: .destructive) { _ in
+            
+//            self.viewModel.deleteProduct(productId: productId)
+            
+        }
+
+        alertController.addAction(action1)
+        alertController.addAction(UIAlertAction(title: "No", style: .cancel))
+        
+        self.present(alertController, animated: true, completion: nil)
+        
+    }
+}
+
+// MARK: - PurchaseVMDelegate
+extension PurchaseVC: PurchaseVMDelegate {
+    func failedWithError(code: Int, message: String) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            if !self.hud.isVisible {
+                self.hud.show(in: self.view)
+            }
+            
+            self.hud.indicatorView = JGProgressHUDErrorIndicatorView()
+            self.hud.textLabel.text = title
+            self.hud.dismiss(afterDelay: 2)
+        }
+    }
+    
+    
+    func showSpinner() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.hud.show(in: self.view)
+        }
+    }
+    
+    func hideSpinner() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.hud.dismiss()
+        }
+    }
+    
+    func dataLoaded() {
+        //Do additional stuff after data fetched
+        
+        print("Rental Success")
+    }
+    
+    
+}
+

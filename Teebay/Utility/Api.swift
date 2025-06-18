@@ -15,6 +15,7 @@ struct API {
     public static let shared = API()
     let auth = AuthApi()
     let product = ProductApi()
+    let transaction = PurchaseApi()
 }
 
 struct AuthApi {
@@ -28,4 +29,7 @@ struct ProductApi {
     let deleteProduct = baseUrl + "api/products/{$id}/"
     let editProduct = baseUrl + "api/products/{$id}/"
     let getProductCategories = baseUrl + "api/products/categories/"
+}
+struct PurchaseApi {
+    let postRenatal = baseUrl + "api/transactions/rentals/"
 }
