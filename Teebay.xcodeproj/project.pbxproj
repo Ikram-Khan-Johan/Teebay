@@ -28,6 +28,7 @@
 		1D48EC7A2E0317CE00984669 /* RentalRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC792E0317CE00984669 /* RentalRequestModel.swift */; };
 		1D48EC7C2E03182800984669 /* PurchaseVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC7B2E03182200984669 /* PurchaseVM.swift */; };
 		1D48EC802E03228A00984669 /* BuyRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC7F2E03227F00984669 /* BuyRequestModel.swift */; };
+		1D48EC862E03309600984669 /* RentalDatePopVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC852E03309600984669 /* RentalDatePopVC.swift */; };
 		1D496D3A2DFD56A1002C5926 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D496D2E2DFD56A1002C5926 /* AppDelegate.swift */; };
 		1D496D3B2DFD56A1002C5926 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D496D352DFD56A1002C5926 /* SceneDelegate.swift */; };
 		1D496D3C2DFD56A1002C5926 /* StoryboardInstantiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D496D362DFD56A1002C5926 /* StoryboardInstantiable.swift */; };
@@ -73,6 +74,7 @@
 		1D48EC792E0317CE00984669 /* RentalRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RentalRequestModel.swift; sourceTree = "<group>"; };
 		1D48EC7B2E03182200984669 /* PurchaseVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseVM.swift; sourceTree = "<group>"; };
 		1D48EC7F2E03227F00984669 /* BuyRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyRequestModel.swift; sourceTree = "<group>"; };
+		1D48EC852E03309600984669 /* RentalDatePopVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RentalDatePopVC.swift; sourceTree = "<group>"; };
 		1D496D2E2DFD56A1002C5926 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1D496D2F2DFD56A1002C5926 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1D496D302DFD56A1002C5926 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				1D48EC752E03111A00984669 /* PurchaseVC.swift */,
+				1D48EC852E03309600984669 /* RentalDatePopVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -537,6 +540,7 @@
 				1DD4AB602DFEE0F900F54D77 /* CommonViewModelDelegate.swift in Sources */,
 				1DD4AB562DFED6C400F54D77 /* ApiService.swift in Sources */,
 				1D48EC4C2E00C10A00984669 /* AllProductModelElement.swift in Sources */,
+				1D48EC862E03309600984669 /* RentalDatePopVC.swift in Sources */,
 				1DD4AB542DFED62900F54D77 /* AlamofireExt.swift in Sources */,
 				1D496D4A2DFD57FD002C5926 /* ProductVC.swift in Sources */,
 				1DD4AB582DFEDA5B00F54D77 /* Api.swift in Sources */,

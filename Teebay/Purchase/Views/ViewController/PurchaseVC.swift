@@ -42,8 +42,20 @@ class PurchaseVC: UIViewController, StoryboardInstantiable {
     
     
     @IBAction func onTappedRentButton(_ sender: Any) {
-        let rental = RentalRequestMdoel(renter: product?.seller ?? 0, product: product?.id ?? 0, rent_option: product?.rentOption ?? "", rent_period_start_date: "2025-06-18T15:47:39.876Z", rent_period_end_date: "2025-06-18T15:47:39.876Z")
-        viewModel.postRental(rental: rental)
+        
+        guard let vc = RentalDatePopVC.instantiateSelf() else { return }
+
+     
+        vc.confirmRentalDateHandler = { [weak self] (startDate, endDate) in
+            guard let self = self else { return }
+            let rental = RentalRequestMdoel(renter: product?.seller ?? 0, product: product?.id ?? 0, rent_option: product?.rentOption ?? "", rent_period_start_date: startDate, rent_period_end_date: endDate)
+            viewModel.postRental(rental: rental)
+        }
+        navigationController?.modalPresentationStyle = .fullScreen
+     
+        self.navigationController?.present(vc, animated: true)
+        
+      
         
     }
     
