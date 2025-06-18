@@ -7,6 +7,7 @@
 
 import UIKit
 import JGProgressHUD
+import Toast_Swift
 
 class PurchaseVC: UIViewController, StoryboardInstantiable {
     static var storyboardName: StoryboardName
@@ -102,7 +103,10 @@ extension PurchaseVC: PurchaseVMDelegate {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             
-            self.navigationController?.popViewController(animated: true)
+            self.view.makeToast("You have successfully rented this item", duration: 2.0, position: .center) { didTap in
+                self.navigationController?.popViewController(animated: true)
+            }
+           
         }
     }
     
@@ -111,7 +115,9 @@ extension PurchaseVC: PurchaseVMDelegate {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             
-            self.navigationController?.popViewController(animated: true)
+            self.view.makeToast("You have successfully bought this item", duration: 2.0, position: .center) { didTap in
+                self.navigationController?.popViewController(animated: true)
+            }
         }
     }
     

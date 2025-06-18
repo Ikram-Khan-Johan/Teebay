@@ -206,7 +206,9 @@ extension EditProductVC : EditProductVMDelegate {
         //Do additional stuff after data fetched
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.navigationController?.popToRootViewController(animated: true)
+            self.view.makeToast("Product Updated", duration: 2.0, position: .center) { didTap in
+                self.navigationController?.popViewController(animated: true)
+            }
         }
     }
 }
