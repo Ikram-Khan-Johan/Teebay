@@ -54,9 +54,10 @@ class EditProductVC: UIViewController,  StoryboardInstantiable {
     
     let dropdown = MultiSelectDropdown()
     var renType: String = ""
+    var product : AllProductModelElement?
     
     var selectedCategories: [String] = []
-//    private lazy var viewModel = CreateProductVM(self)
+    private lazy var viewModel = EditProductVM(self)
     private lazy var hud = JGProgressHUD(style: .dark)
     
     override func viewDidLoad() {
@@ -64,14 +65,37 @@ class EditProductVC: UIViewController,  StoryboardInstantiable {
 
         // Do any additional setup after loading the view.
         setupView()
-        selectCategoryButton.imageToRight()
+        
+        setupData()
+        viewModel.getProductCategories()
     }
     
-  
-  
+    func setupData() {
+        guard let product = product else { return }
+        
+        titleTF.text = product.title
+        descriptionTExtview.text = product.description
+        purchasePriceTF.text = product.purchasePrice
+        rentPriceTF.text = product.rentPrice
+        selectedCategories = product.categories ?? []
+        print("Categories : \(selectedCategories)")
+        selectCategoryButton.setTitle(selectedCategories.isEmpty ? "Select Category" : selectedCategories.joined(separator: ", "), for: .normal)
+        if product.rentOption == "day" {
+            perHourButton.setImage(UIImage(named: "pr_radio_blank"), for: .normal)
+            perDayButton.setImage(UIImage(named: "pr_radio_fill"), for: .normal)
+            
+            renType = "day"
+        } else {
+            perHourButton.setImage(UIImage(named: "pr_radio_fill"), for: .normal)
+            perDayButton.setImage(UIImage(named: "pr_radio_blank"), for: .normal)
+            
+            renType = "hour"
+        }
+        
+    }
     
     func setupView() {
-       
+        selectCategoryButton.imageToRight()
         perDayButton.setImage(UIImage(named: "pr_radio_blank"), for: .normal)
         perHourButton.setImage(UIImage(named: "pr_radio_blank"), for: .normal)
         
@@ -101,6 +125,8 @@ class EditProductVC: UIViewController,  StoryboardInstantiable {
     }
     
     @IBAction func onTappedEditButton(_ sender: Any) {
+        
+        viewModel.editProduct(title: titleTF.text ?? "", description: descriptionTExtview.text, categories: selectedCategories, imageData: product?.productImage ?? "", purchasePrice: purchasePriceTF.text ?? "", rentPrice: rentPriceTF.text ?? "", rentOption: renType, sellerId: String(product?.seller ?? -1), productId: String(product?.id ?? -1))
     }
     
     @objc func dismissKeyboard() {
@@ -113,7 +139,9 @@ class EditProductVC: UIViewController,  StoryboardInstantiable {
     
     @IBAction func onTappedCategoryButton(_ sender: Any) {
            
-           view.addSubview(dropdown)
+        dropdown.selectedItems = Set(selectedCategories)
+        view.addSubview(dropdown)
+        
        }
        
        
@@ -133,4 +161,53 @@ class EditProductVC: UIViewController,  StoryboardInstantiable {
            renType = "day"
        }
   
+}
+
+extension EditProductVC : EditProductVMDelegate {
+    
+    func categoriesFetched() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.dropdown.items = viewModel.productCategories.map({ $0.value ?? "" })
+        }
+    }
+    
+    
+    func failedWithError(code: Int, message: String) {
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            if !self.hud.isVisible {
+                self.hud.show(in: self.view)
+            }
+            
+            self.hud.indicatorView = JGProgressHUDErrorIndicatorView()
+            self.hud.textLabel.text = message
+            self.hud.dismiss(afterDelay: 2)
+        }
+    }
+    
+    func showSpinner() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.hud.show(in: self.view)
+        }
+    }
+    
+    func hideSpinner() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.hud.dismiss()
+        }
+    }
+    
+    func dataLoaded() {
+        //Do additional stuff after data fetched
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            guard let vc = ProductVC.instantiateSelf() else { return }
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
 }

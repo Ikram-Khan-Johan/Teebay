@@ -36,6 +36,7 @@ class ProductTVC: UITableViewCell {
         self.parentStackview.layer.cornerRadius = 8
         self.parentStackview.layer.borderColor = UIColor.systemGray4.cgColor
         self.parentStackview.layer.borderWidth = 2
+        self.selectionStyle = .none
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -55,6 +56,7 @@ class ProductTVC: UITableViewCell {
     func configureCell(with product: AllProductModelElement) {
         self.product = product
         productNameLabel.text = product.title
+        descriptionLAbel.text = product.description
         priceLabel.text = "Price: $\(product.purchasePrice ?? "") Rent: $\(product.rentPrice ?? "") \(product.rentOption ?? "")"
         categoryLabel.text = product.categories?.joined(separator: ", ")
         

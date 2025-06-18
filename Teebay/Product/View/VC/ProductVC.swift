@@ -123,7 +123,13 @@ extension ProductVC : UITableViewDelegate, UITableViewDataSource {
         cell.delegate = self
         return cell
     }
-        
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let product = viewModel.products[indexPath.row]
+        guard let vc = EditProductVC.instantiateSelf() else { return }
+        vc.product = product
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
 }
 

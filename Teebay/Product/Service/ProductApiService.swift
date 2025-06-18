@@ -157,7 +157,7 @@ class ProductApiService {
                        formData.append(Data(title.utf8), withName: "title")
                        formData.append(Data(description.utf8), withName: "description")
                    for category in categories {
-                        formData.append(Data(category.utf8), withName: "categories[]")
+                        formData.append(Data(category.utf8), withName: "categories")
                     }
                     formData.append(Data(purchasePrice.utf8), withName: "purchase_price")
                     formData.append(Data(rentPrice.utf8), withName: "rent_price")
@@ -215,4 +215,73 @@ class ProductApiService {
     }
     
    
+    func updateProduct(
+        title: String,
+        description: String,
+        categories: [String],
+        imageData: String,
+        purchasePrice: String,
+        rentPrice: String,
+        rentOption: String,
+        sellerId: String,
+        productId: String
+    ) async throws ->  Result<AllProductModelElement, Error> {
+        let url = API.shared.product.editProduct
+            .replacingOccurrences(of: " ", with: "%20")
+            .replacingOccurrences(of: "{$id}", with: productId)
+        
+        print("Url ==> \(url)")
+
+        let headers: HTTPHeaders = [
+            "Content-Type": "multipart/form-data"
+        ]
+        return try await withCheckedThrowingContinuation { continuation in
+           
+
+            AF.upload(
+                multipartFormData: { formData in
+                    formData.append(Data(sellerId.utf8), withName: "seller")
+                       formData.append(Data(title.utf8), withName: "title")
+                       formData.append(Data(description.utf8), withName: "description")
+                   for category in categories {
+                        formData.append(Data(category.utf8), withName: "categories")
+                    }
+                    formData.append(Data(purchasePrice.utf8), withName: "purchase_price")
+                    formData.append(Data(rentPrice.utf8), withName: "rent_price")
+                    formData.append(Data(rentOption.utf8), withName: "rent_option")
+//                    formData.append(Data(imageData.utf8), withName: "product_image")
+//                       formData.append(imageData, withName: "product_image", fileName: "product_1.jpg", mimeType: "image/jpeg")
+                   }, to: url, method: .patch, headers: headers)
+            .validate()
+            .responseData { response in
+                guard let statusCode = response.response?.statusCode else {
+                    continuation.resume(throwing: URLError(.badServerResponse))
+                    return
+                }
+
+                switch response.result {
+                case .success(let data):
+                    let decoder = JSONDecoder()
+                    if statusCode == 200 || statusCode == 201  {
+                        do {
+                            let success = try decoder.decode(AllProductModelElement.self, from: data)
+                            continuation.resume(returning: .success(success))
+                        } catch {
+                            continuation.resume(throwing: error)
+                        }
+                    } else {
+                        do {
+                            let errorResponse = try decoder.decode(LoginErrorModel.self, from: data)
+                            continuation.resume(returning: .failure(errorResponse))
+                        } catch {
+                            continuation.resume(throwing: error)
+                        }
+                    }
+
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
 }

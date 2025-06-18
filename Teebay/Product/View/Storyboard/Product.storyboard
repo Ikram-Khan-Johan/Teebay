@@ -449,6 +449,7 @@
                                                                             <color key="titleColor" systemColor="labelColor"/>
                                                                         </state>
                                                                         <connections>
+                                                                            <action selector="onTappedCategoryButton:" destination="2XI-SB-xll" eventType="touchUpInside" id="A49-JV-Kzw"/>
                                                                             <action selector="onTappedCategoryButton:" destination="VwB-CE-va1" eventType="touchUpInside" id="YQQ-fk-64F"/>
                                                                         </connections>
                                                                     </button>
@@ -532,6 +533,7 @@
                                                                                                 </state>
                                                                                                 <connections>
                                                                                                     <action selector="onTappedPerHourButton:" destination="VwB-CE-va1" eventType="touchUpInside" id="6qj-mz-TO7"/>
+                                                                                                    <action selector="onTappedPerHourButton:" destination="2XI-SB-xll" eventType="touchUpInside" id="mX0-yQ-g4K"/>
                                                                                                 </connections>
                                                                                             </button>
                                                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iif-Fj-p6G">
@@ -542,6 +544,7 @@
                                                                                                     <color key="titleColor" systemColor="labelColor"/>
                                                                                                 </state>
                                                                                                 <connections>
+                                                                                                    <action selector="onTappedPerDayButton:" destination="2XI-SB-xll" eventType="touchUpInside" id="Qyc-ib-Ba1"/>
                                                                                                     <action selector="onTappedPerDayButton:" destination="VwB-CE-va1" eventType="touchUpInside" id="vol-LJ-Ad3"/>
                                                                                                 </connections>
                                                                                             </button>

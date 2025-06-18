@@ -26,5 +26,6 @@ struct ProductApi {
     let getProducts = baseUrl + "api/products/"
     let createProduct = baseUrl + "api/products/"
     let deleteProduct = baseUrl + "api/products/{$id}/"
+    let editProduct = baseUrl + "api/products/{$id}/"
     let getProductCategories = baseUrl + "api/products/categories/"
 }
