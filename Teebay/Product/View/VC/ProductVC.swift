@@ -27,7 +27,7 @@ class ProductVC: UIViewController, StoryboardInstantiable {
     
     @IBOutlet weak var menuButton: UIButton!
     private var dimmingView: UIView?
-    var pageType: PageType = .allProduct
+    var pageType: PageType = .myProduct
     override func viewDidLoad() {
         super.viewDidLoad()
 
