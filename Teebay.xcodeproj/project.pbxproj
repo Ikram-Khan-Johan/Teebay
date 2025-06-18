@@ -27,6 +27,7 @@
 		1D48EC782E03132C00984669 /* TransactionApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC772E03132200984669 /* TransactionApiService.swift */; };
 		1D48EC7A2E0317CE00984669 /* RentalRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC792E0317CE00984669 /* RentalRequestModel.swift */; };
 		1D48EC7C2E03182800984669 /* PurchaseVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC7B2E03182200984669 /* PurchaseVM.swift */; };
+		1D48EC802E03228A00984669 /* BuyRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D48EC7F2E03227F00984669 /* BuyRequestModel.swift */; };
 		1D496D3A2DFD56A1002C5926 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D496D2E2DFD56A1002C5926 /* AppDelegate.swift */; };
 		1D496D3B2DFD56A1002C5926 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D496D352DFD56A1002C5926 /* SceneDelegate.swift */; };
 		1D496D3C2DFD56A1002C5926 /* StoryboardInstantiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D496D362DFD56A1002C5926 /* StoryboardInstantiable.swift */; };
@@ -71,6 +72,7 @@
 		1D48EC772E03132200984669 /* TransactionApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionApiService.swift; sourceTree = "<group>"; };
 		1D48EC792E0317CE00984669 /* RentalRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RentalRequestModel.swift; sourceTree = "<group>"; };
 		1D48EC7B2E03182200984669 /* PurchaseVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseVM.swift; sourceTree = "<group>"; };
+		1D48EC7F2E03227F00984669 /* BuyRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyRequestModel.swift; sourceTree = "<group>"; };
 		1D496D2E2DFD56A1002C5926 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1D496D2F2DFD56A1002C5926 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1D496D302DFD56A1002C5926 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 		1D48EC702E030DC500984669 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1D48EC7F2E03227F00984669 /* BuyRequestModel.swift */,
 				1D48EC792E0317CE00984669 /* RentalRequestModel.swift */,
 			);
 			path = Model;
@@ -508,6 +511,7 @@
 			files = (
 				1D48EC492E00BECC00984669 /* ProductApiService.swift in Sources */,
 				1DD4AB4B2DFECEDA00F54D77 /* AuthApiSevice.swift in Sources */,
+				1D48EC802E03228A00984669 /* BuyRequestModel.swift in Sources */,
 				1DD4AB5C2DFEDF7600F54D77 /* Extensions.swift in Sources */,
 				1D496D3A2DFD56A1002C5926 /* AppDelegate.swift in Sources */,
 				1D48EC6A2E02EC5200984669 /* SideMenuViewController.swift in Sources */,

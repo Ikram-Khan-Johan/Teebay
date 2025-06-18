@@ -32,4 +32,5 @@ struct ProductApi {
 }
 struct PurchaseApi {
     let postRenatal = baseUrl + "api/transactions/rentals/"
+    let buyProduct = baseUrl + "api/transactions/purchases/"
 }

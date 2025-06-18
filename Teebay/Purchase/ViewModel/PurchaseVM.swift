@@ -9,6 +9,8 @@
 
 protocol PurchaseVMDelegate: CommonViewModelDelegate {
     
+    func rentalCreated()
+    func productPurchased()
 }
 
 class PurchaseVM {
@@ -31,7 +33,7 @@ class PurchaseVM {
             do {
                 try await apiService.transaction.postRental(rental)
                 print("Rental created successfully")
-                self.delegate?.dataLoaded()
+                self.delegate?.rentalCreated()
             } catch {
                 print("Error creating rental: \(error)")
                 self.delegate?.failedWithError(code: 0, message: "\(error.localizedDescription)")
@@ -39,7 +41,24 @@ class PurchaseVM {
             
             self.delegate?.hideSpinner()
         }
+        
+    }
+    
+    func buyProduct(buyModel: BuyRequestModel) {
+        self.delegate?.showSpinner()
+        Task {
 
+            do {
+                try await apiService.transaction.buyProduct(buyModel)
+                print("Product bought successfully")
+                self.delegate?.productPurchased()
+            } catch {
+                print("Error buying product: \(error)")
+                self.delegate?.failedWithError(code: 0, message: "\(error.localizedDescription)")
+            }
+            
+            self.delegate?.hideSpinner()
+        }
         
     }
     

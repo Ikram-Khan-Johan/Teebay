@@ -48,7 +48,7 @@ class PurchaseVC: UIViewController, StoryboardInstantiable {
     }
     
     @IBAction func onTappedBuyButton(_ sender: Any) {
-        
+        openBuyActionSheet()
     }
     
     func setupData() {
@@ -59,7 +59,7 @@ class PurchaseVC: UIViewController, StoryboardInstantiable {
         
     }
     
-    func openBuyActionSheet(productId: String) {
+    func openBuyActionSheet() {
         
         let alertController = UIAlertController(title: "Are you sure you want to buy this product?", message: nil, preferredStyle: (UIDevice.current.userInterfaceIdiom == .pad)
                                                 ? .alert
@@ -69,6 +69,8 @@ class PurchaseVC: UIViewController, StoryboardInstantiable {
         let action1 = UIAlertAction(title: "Yes", style: .destructive) { _ in
             
 //            self.viewModel.deleteProduct(productId: productId)
+            let buyModel = BuyRequestModel(buyer: self.product?.seller ?? -1, product: self.product?.id ?? -1)
+            self.viewModel.buyProduct(buyModel: buyModel)
             
         }
 
@@ -82,6 +84,25 @@ class PurchaseVC: UIViewController, StoryboardInstantiable {
 
 // MARK: - PurchaseVMDelegate
 extension PurchaseVC: PurchaseVMDelegate {
+    
+    func rentalCreated() {
+        print("Rental Success")
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    func productPurchased() {
+        print("Purchase Success")
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
     func failedWithError(code: Int, message: String) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
