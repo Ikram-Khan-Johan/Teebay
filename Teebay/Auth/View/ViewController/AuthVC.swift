@@ -273,7 +273,25 @@ extension AuthVC: AuthVMDelegate {
     }
     
     func dataLoaded() {
-        //Do additional stuff after data fetched
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            UserDefaults.standard.isLoggedIn = true
+          
+            self.goToProductsScreen()
+            
+        }
     }
     
+    func goToProductsScreen() {
+          guard let productsVC = ProductVC.instantiateSelf() else { return }
+           let navController = UINavigationController(rootViewController: productsVC)
+
+           // Replace the root view controller
+           if let sceneDelegate = UIApplication.shared.connectedScenes
+               .first?.delegate as? SceneDelegate {
+               sceneDelegate.window?.rootViewController = navController
+               sceneDelegate.window?.makeKeyAndVisible()
+           }
+       }
 }

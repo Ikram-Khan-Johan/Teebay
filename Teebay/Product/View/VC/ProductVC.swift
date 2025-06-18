@@ -7,7 +7,10 @@
 
 import UIKit
 import JGProgressHUD
-
+enum PageType {
+    case myProduct
+    case allProduct
+}
 class ProductVC: UIViewController, StoryboardInstantiable {
     static var storyboardName: StoryboardName {
         return .product
@@ -15,11 +18,16 @@ class ProductVC: UIViewController, StoryboardInstantiable {
     private lazy var hud: JGProgressHUD = JGProgressHUD(style: .dark)
     private lazy var viewModel = ProductVM(self)
     
-
+    private var sideMenuVC: SideMenuViewController?
+    private var isMenuShown = false
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var pageTitle: UILabel!
     @IBOutlet weak var addButton: UIButton!
     
+    @IBOutlet weak var menuButton: UIButton!
+    private var dimmingView: UIView?
+    var pageType: PageType = .allProduct
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -28,8 +36,68 @@ class ProductVC: UIViewController, StoryboardInstantiable {
        // tableView.delegate = self
         tableView.register(ProductTVC.nib, forCellReuseIdentifier: ProductTVC.identifier)
         // Do any additional setup after loading the view.
+        pageTitle.text = pageType == .myProduct ? "My Products" : "All Products"
     }
     
+    @IBAction func onTappedMenuButton(_ sender: Any) {
+        toggleMenu()
+        
+    }
+    
+     func toggleMenu() {
+           if isMenuShown {
+               hideSideMenu()
+           } else {
+               showSideMenu()
+           }
+       }
+
+    private func showSideMenu() {
+        guard sideMenuVC == nil else { return }
+
+        let menuVC = SideMenuViewController()
+        addChild(menuVC)
+
+        // Add dimming view
+        let dimming = UIView(frame: view.bounds)
+        dimming.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        dimming.alpha = 0
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hideSideMenu))
+        dimming.addGestureRecognizer(tap)
+        view.addSubview(dimming)
+        self.dimmingView = dimming
+
+        view.addSubview(menuVC.view)
+        let width = view.bounds.width * 0.6
+        menuVC.view.frame = CGRect(x: -width, y: 0, width: width, height: view.bounds.height)
+        menuVC.didMove(toParent: self)
+
+        UIView.animate(withDuration: 0.3) {
+            dimming.alpha = 1
+            menuVC.view.frame.origin.x = 0
+        }
+
+        sideMenuVC = menuVC
+        isMenuShown = true
+    }
+
+    @objc private func hideSideMenu() {
+        guard let menuVC = sideMenuVC else { return }
+
+        UIView.animate(withDuration: 0.3, animations: {
+            menuVC.view.frame.origin.x = -menuVC.view.bounds.width
+            self.dimmingView?.alpha = 0
+        }) { _ in
+            menuVC.willMove(toParent: nil)
+            menuVC.view.removeFromSuperview()
+            menuVC.removeFromParent()
+            self.sideMenuVC = nil
+            self.dimmingView?.removeFromSuperview()
+            self.dimmingView = nil
+            self.isMenuShown = false
+        }
+    }
+
     @IBAction func onTappedAddButton(_ sender: Any) {
         guard let vc = CreateProductVC.instantiateSelf() else { return }
         navigationController?.pushViewController(vc, animated: true)

@@ -206,8 +206,7 @@ extension EditProductVC : EditProductVMDelegate {
         //Do additional stuff after data fetched
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            guard let vc = ProductVC.instantiateSelf() else { return }
-            self.navigationController?.pushViewController(vc, animated: true)
+            self.navigationController?.popToRootViewController(animated: true)
         }
     }
 }
