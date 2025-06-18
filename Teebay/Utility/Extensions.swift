@@ -114,13 +114,17 @@ extension String {
     }
 }
 
+extension UserDefaults  {
 
-
-
-
-
-
-
+    var isLoggedIn: Bool? {
+        get {
+            return bool(forKey: #function)
+        }
+        set {
+            set(newValue, forKey: #function)
+        }
+    }
+}
 
 
 

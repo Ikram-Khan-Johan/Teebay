@@ -24,7 +24,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="XZn-IM-K13">
-                                <rect key="frame" x="20" y="172" width="353" height="552"/>
+                                <rect key="frame" x="20" y="172" width="353" height="532"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="Y6W-OH-hqX" id="9YB-o1-q3Z"/>
@@ -32,14 +32,14 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rKi-9X-o4T">
-                                <rect key="frame" x="353" y="744" width="20" height="20"/>
+                                <rect key="frame" x="313" y="724" width="40" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="5Wo-bX-a3k"/>
-                                    <constraint firstAttribute="width" constant="20" id="cJa-w2-vy7"/>
+                                    <constraint firstAttribute="height" constant="40" id="5Wo-bX-a3k"/>
+                                    <constraint firstAttribute="width" constant="40" id="cJa-w2-vy7"/>
                                 </constraints>
                                 <color key="tintColor" systemColor="systemGreenColor"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="plus.circle" catalog="system"/>
+                                <state key="normal" image="plus"/>
                                 <connections>
                                     <action selector="onTappedAddButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="GDi-EZ-Wu8"/>
                                 </connections>
@@ -49,7 +49,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="rKi-9X-o4T" firstAttribute="top" secondItem="XZn-IM-K13" secondAttribute="bottom" constant="20" id="7bT-Cd-Sqn"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="rKi-9X-o4T" secondAttribute="trailing" constant="20" id="OJW-9U-AtO"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="rKi-9X-o4T" secondAttribute="trailing" constant="40" id="OJW-9U-AtO"/>
                             <constraint firstAttribute="trailing" secondItem="eTx-dQ-RNG" secondAttribute="trailing" constant="20" id="XG7-i2-d4J"/>
                             <constraint firstItem="eTx-dQ-RNG" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" constant="20" id="eAF-mA-T8Y"/>
                             <constraint firstItem="XZn-IM-K13" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="fxh-vu-TNJ"/>
@@ -392,7 +392,7 @@
     </scenes>
     <resources>
         <image name="arrowshape.down" catalog="system" width="123" height="128"/>
-        <image name="plus.circle" catalog="system" width="128" height="123"/>
+        <image name="plus" width="512" height="512"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

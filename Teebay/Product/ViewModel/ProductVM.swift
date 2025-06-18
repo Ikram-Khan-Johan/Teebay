@@ -10,6 +10,7 @@ import Foundation
 
 protocol ProductVMDelegate: CommonViewModelDelegate {
     
+    func productDeleted()
 }
 
 class ProductVM {
@@ -88,5 +89,20 @@ class ProductVM {
                 
                 self.delegate?.hideSpinner()
             }
+    }
+    
+    func deleteProduct(productId: String) {
+        
+        apiService.product.deleteProduct(productId: productId) { result in
+            
+            switch result {
+            case .success:
+            print("Product deleted successfully")
+                self.delegate?.productDeleted()
+        case .failure(let error):
+                self.delegate?.failedWithError(code: 0, message: "Failed to delete product")
+            }
+           
+        }
     }
 }

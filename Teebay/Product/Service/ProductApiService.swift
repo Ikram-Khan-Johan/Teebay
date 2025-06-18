@@ -197,5 +197,22 @@ class ProductApiService {
         }
     }
 
+    func deleteProduct(productId: String, completion: @escaping (Result<Void, AFError>) -> Void) {
+        let url = API.shared.product.deleteProduct
+            .replacingOccurrences(of: " ", with: "%20")
+            .replacingOccurrences(of: "{$id}", with: productId)
+
+        print("URL ==> \(url)")
+        AF.request(url, method: .delete).validate(statusCode: 200..<300).response { response in
+            switch response.result {
+            case .success:
+                // Assuming success returns no body
+                completion(.success(()))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
     
+   
 }
