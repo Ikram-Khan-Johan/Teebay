@@ -9,7 +9,10 @@ target 'Teebay' do
 	pod 'Alamofire'
   pod 'Toast-Swift', '~> 5.1.1'
   pod 'JGProgressHUD'
-  
+  pod 'Firebase/Core'
+  pod 'Firebase/Auth'  # If using Firebase Authentication
+  pod 'Firebase/Messaging'  # For Firebase Cloud Messaging (FCM)
+
   post_install do |installer|
     installer.pods_project.targets.each do |target|
       target.build_configurations.each do |config|
