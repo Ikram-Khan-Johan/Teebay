@@ -39,6 +39,7 @@
 		1D496D4A2DFD57FD002C5926 /* ProductVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D496D492DFD57FD002C5926 /* ProductVC.swift */; };
 		1D496D4C2DFD58D5002C5926 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D496D4B2DFD58D5002C5926 /* MainVC.swift */; };
 		1DA508B22E10063000C04379 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1DA508B12E10063000C04379 /* GoogleService-Info.plist */; };
+		1DA508B52E12956C00C04379 /* FaceIdLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA508B42E12955F00C04379 /* FaceIdLoginManager.swift */; };
 		1DD4AB4B2DFECEDA00F54D77 /* AuthApiSevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD4AB4A2DFECEDA00F54D77 /* AuthApiSevice.swift */; };
 		1DD4AB542DFED62900F54D77 /* AlamofireExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD4AB532DFED62900F54D77 /* AlamofireExt.swift */; };
 		1DD4AB562DFED6C400F54D77 /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD4AB552DFED6C400F54D77 /* ApiService.swift */; };
@@ -88,6 +89,7 @@
 		1D496D4B2DFD58D5002C5926 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		1DA508B12E10063000C04379 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1DA508B32E1039F900C04379 /* Teebay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Teebay.entitlements; sourceTree = "<group>"; };
+		1DA508B42E12955F00C04379 /* FaceIdLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceIdLoginManager.swift; sourceTree = "<group>"; };
 		1DD4AB4A2DFECEDA00F54D77 /* AuthApiSevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthApiSevice.swift; sourceTree = "<group>"; };
 		1DD4AB532DFED62900F54D77 /* AlamofireExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireExt.swift; sourceTree = "<group>"; };
 		1DD4AB552DFED6C400F54D77 /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
@@ -348,6 +350,7 @@
 		1DD4AB522DFED60A00F54D77 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				1DA508B42E12955F00C04379 /* FaceIdLoginManager.swift */,
 				1D48EC5D2E01472000984669 /* MultiSelectDropdown.swift */,
 				1DD4AB5F2DFEE0F900F54D77 /* CommonViewModelDelegate.swift */,
 				1DD4AB5B2DFEDF7600F54D77 /* Extensions.swift */,
@@ -552,6 +555,7 @@
 				1DD4AB582DFEDA5B00F54D77 /* Api.swift in Sources */,
 				1D48EC4F2E00C24C00984669 /* ProductVM.swift in Sources */,
 				1D48EC422E00798400984669 /* LoginVC.swift in Sources */,
+				1DA508B52E12956C00C04379 /* FaceIdLoginManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
