@@ -63,7 +63,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
 
         let userInfo = response.notification.request.content.userInfo
-        handleNotification(userInfo: userInfo)
+       // handleNotification(userInfo: userInfo)
         completionHandler()
     }
     

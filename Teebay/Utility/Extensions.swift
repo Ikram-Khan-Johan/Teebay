@@ -160,8 +160,11 @@ extension Date {
 extension UIViewController {
     func throwNotification(title: String =
                            "", body: String = "", sound: UNNotificationSound) {
+        
         let content = UNMutableNotificationContent()
-
+        content.title = title
+        content.body = body
+        content.sound = sound
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.5, repeats: false)
 
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
