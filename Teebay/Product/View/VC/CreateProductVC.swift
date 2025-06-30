@@ -458,10 +458,14 @@ extension CreateProductVC : CreateProductVMDelegate {
             guard let self = self else { return }
 //            guard let vc = ProductVC.instantiateSelf() else { return }
 //            self.navigationController?.pushViewController(vc, animated: true)
+            throwNotification(title: "Product added successfully", body: titleLabel.text ?? "",  sound: .default)
             self.view.makeToast("Product added successfully", duration: 2.0, position: .center) { didTap in
                 self.navigationController?.popViewController(animated: true)
             }
            
         }
     }
+    
+    
+
 }

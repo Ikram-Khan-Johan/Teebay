@@ -32,6 +32,8 @@ class PurchaseVC: UIViewController, StoryboardInstantiable {
     private lazy var hud: JGProgressHUD = JGProgressHUD(style: .dark)
     private lazy var viewModel = PurchaseVM(self)
     
+    var isFromNotification : Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -69,7 +71,8 @@ class PurchaseVC: UIViewController, StoryboardInstantiable {
         catogoryLabel.text = product?.categories?.joined(separator: ", ")
         priceLabel.text = product?.purchasePrice ?? ""
         descriptionLabel.text = product?.description ?? ""
-        
+        buyButton.isHidden = isFromNotification
+        rentButton.isHidden = isFromNotification
     }
     
     func openBuyActionSheet() {
@@ -103,6 +106,7 @@ extension PurchaseVC: PurchaseVMDelegate {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             
+            self.throwNotification(title: "Rent Successfull", body: "You have rented: \(self.product?.title ?? "")", sound: .default)
             self.view.makeToast("You have successfully rented this item", duration: 2.0, position: .center) { didTap in
                 self.navigationController?.popViewController(animated: true)
             }
@@ -115,6 +119,7 @@ extension PurchaseVC: PurchaseVMDelegate {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             
+            self.throwNotification(title: "Purchased Successfully", body: "You have purchased: \(self.product?.title ?? "")", sound: .default)
             self.view.makeToast("You have successfully bought this item", duration: 2.0, position: .center) { didTap in
                 self.navigationController?.popViewController(animated: true)
             }

@@ -146,3 +146,21 @@ extension Date {
             return formatter.string(from: self)
         }
 }
+
+
+extension UIViewController {
+    func throwNotification(title: String =
+                           "", body: String = "", sound: UNNotificationSound) {
+        let content = UNMutableNotificationContent()
+
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.5, repeats: false)
+
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Error throwing notification: \(error.localizedDescription)")
+            }
+        }
+    }
+}

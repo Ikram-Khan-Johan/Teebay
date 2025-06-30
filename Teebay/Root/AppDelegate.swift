@@ -6,7 +6,9 @@
 //
 
 import UIKit
-
+import UserNotifications
+import FirebaseCore
+import FirebaseMessaging
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -14,6 +16,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if granted {
+                print("Permission granted")
+                UNUserNotificationCenter.current().delegate = self
+                
+            } else {
+                print("Permission denied: \(error?.localizedDescription ?? "No error")")
+            }
+        }
+        
+        UNUserNotificationCenter.current().delegate = self
+        application.registerForRemoteNotifications()
+        
+        Messaging.messaging().delegate = self
         return true
     }
 
@@ -34,3 +51,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.banner, .sound])
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+
+        let userInfo = response.notification.request.content.userInfo
+        handleNotification(userInfo: userInfo)
+        completionHandler()
+    }
+    
+    func handleNotification(userInfo: [AnyHashable: Any]) {
+        guard let page = userInfo["product_id"] as? String else { return }
+
+        DispatchQueue.main.async {
+            if let rootVC = UIApplication.shared.windows.first?.rootViewController as? UINavigationController {
+                guard let vc = PurchaseVC.instantiateSelf() else { return }
+                rootVC.pushViewController(vc, animated: true)
+            }
+        }
+    }
+
+}
+
+extension AppDelegate: MessagingDelegate {
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        print("FCM token: \(fcmToken ?? "")")
+        // Send this token to your server if needed
+    }
+}
