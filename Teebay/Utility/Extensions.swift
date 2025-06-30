@@ -125,6 +125,15 @@ extension UserDefaults  {
             set(newValue, forKey: #function)
         }
     }
+    
+    var fcmToken: String? {
+        get {
+            return string(forKey: #function)
+        }
+        set {
+            set(newValue, forKey: #function)
+        }
+    }
 }
 
 

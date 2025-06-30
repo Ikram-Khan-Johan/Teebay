@@ -83,6 +83,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 extension AppDelegate: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         print("FCM token: \(fcmToken ?? "")")
+        UserDefaults.standard.fcmToken = fcmToken
         // Send this token to your server if needed
     }
 }
