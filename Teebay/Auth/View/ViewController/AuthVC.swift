@@ -107,6 +107,31 @@ class AuthVC: UIViewController, StoryboardInstantiable {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+
+    func saveCredentialsToKeychain(email: String, password: String) -> Bool {
+        let credentialsData = "\(email):\(password)".data(using: .utf8)!
+
+        let access = SecAccessControlCreateWithFlags(nil,
+                                                     kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
+                                                     .biometryCurrentSet,
+                                                     nil)!
+
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: "user_credentials",
+            kSecAttrService as String: "DON.teebay",
+            kSecValueData as String: credentialsData,
+            kSecAttrAccessControl as String: access,
+            kSecUseAuthenticationUI as String: kSecUseAuthenticationUI
+        ]
+
+        // Delete if already exists
+        SecItemDelete(query as CFDictionary)
+
+        let status = SecItemAdd(query as CFDictionary, nil)
+        return status == errSecSuccess
+    }
+
     
 }
 
@@ -277,7 +302,7 @@ extension AuthVC: AuthVMDelegate {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             UserDefaults.standard.isLoggedIn = true
-          
+           var result = saveCredentialsToKeychain(email: emailTF.text ?? "", password: passwordTF.text ?? "")
             self.goToProductsScreen()
             
         }

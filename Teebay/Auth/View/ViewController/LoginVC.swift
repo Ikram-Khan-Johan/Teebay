@@ -7,6 +7,10 @@
 
 import UIKit
 import JGProgressHUD
+
+import LocalAuthentication
+import Security
+
 class LoginVC: UIViewController, StoryboardInstantiable {
     static var storyboardName: StoryboardName
     {
@@ -24,6 +28,8 @@ class LoginVC: UIViewController, StoryboardInstantiable {
     @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var logiinButton: UIButton!
     
+    @IBOutlet weak var ligonWithFaceidButton: UIButton!
+    
     var userData : [String :String] = [
         "email": "",
         "password": ""
@@ -35,8 +41,21 @@ class LoginVC: UIViewController, StoryboardInstantiable {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGesture.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGesture)
+        
+//        deleteCredentialsFromKeychain()
         // Do any additional setup after loading the view.
     }
+    func deleteCredentialsFromKeychain() -> Bool {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: "user_credentials",
+            kSecAttrService as String: "DON.teebay"
+        ]
+
+        let status = SecItemDelete(query as CFDictionary)
+        return status == errSecSuccess || status == errSecItemNotFound
+    }
+
     
     func setupUI() {
         emailTextfield.delegate = self
@@ -46,6 +65,11 @@ class LoginVC: UIViewController, StoryboardInstantiable {
         passwordTextField.placeholder = "Password"
         emailTextfield.placeholder = "Email"
         
+        if areCredentialsStored() {
+            ligonWithFaceidButton.isHidden = false
+        } else {
+            ligonWithFaceidButton.isHidden = true
+        }
     }
     
     @objc func dismissKeyboard() {
@@ -70,12 +94,43 @@ class LoginVC: UIViewController, StoryboardInstantiable {
         viewModel.login(params: userData)
     }
     
+    @IBAction func loginWithFaceIDTapped(_ sender: UIButton) {
+        retrieveCredentialsWithFaceID { email, password in
+            if let email = email, let password = password {
+                
+                self.userData["email"] = email
+                self.userData["password"] = password
+                self.viewModel.login(params: self.userData)
+                
+            } else {
+                self.view.makeToast("Unable to retrieve credentials.", duration: 2.0, position: .bottom)
+            }
+        }
+    }
+    
+    
+   
+
     @IBAction func onTappedSingupButton(_ sender: Any) {
         guard let vc =  AuthVC.instantiateSelf() else { return }
         
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    func areCredentialsStored() -> Bool {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: "user_credentials",
+            kSecAttrService as String: "DON.teebay",
+            kSecReturnData as String: false, // Don't return data
+            kSecMatchLimit as String: kSecMatchLimitOne,
+            kSecUseAuthenticationUI as String: kSecUseAuthenticationUI // Don't show Face ID prompt
+        ]
+
+        let status = SecItemCopyMatching(query as CFDictionary, nil)
+
+        return status == errSecSuccess
+    }
 }
 
 extension LoginVC: UITextFieldDelegate {
@@ -140,6 +195,7 @@ extension LoginVC: LoginVMDelegate {
             guard let self = self else { return }
             UserDefaults.standard.isLoggedIn = true
           
+            var result = saveCredentialsToKeychain(email: emailTextfield.text ?? "", password: passwordTextField.text ?? "")
             self.goToProductsScreen()
             
         }
@@ -159,3 +215,60 @@ extension LoginVC: LoginVMDelegate {
     
 }
 
+
+extension LoginVC {
+    
+    func retrieveCredentialsWithFaceID(completion: @escaping (String?, String?) -> Void) {
+        let context = LAContext()
+        context.localizedReason = "Authenticate to login with Face ID"
+
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: "user_credentials",
+            kSecAttrService as String: "DON.teebay",
+            kSecReturnData as String: true,
+            kSecUseOperationPrompt as String: "Login using Face ID"
+        ]
+
+        var dataTypeRef: AnyObject?
+
+        let status = SecItemCopyMatching(query as CFDictionary, &dataTypeRef)
+
+        if status == errSecSuccess,
+           let data = dataTypeRef as? Data,
+           let credentialString = String(data: data, encoding: .utf8) {
+            let components = credentialString.split(separator: ":", maxSplits: 1)
+            if components.count == 2 {
+                let email = String(components[0])
+                let password = String(components[1])
+                completion(email, password)
+                return
+            }
+        }
+        completion(nil, nil)
+    }
+
+    func saveCredentialsToKeychain(email: String, password: String) -> Bool {
+        let credentialsData = "\(email):\(password)".data(using: .utf8)!
+
+        let access = SecAccessControlCreateWithFlags(nil,
+                                                     kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
+                                                     .biometryCurrentSet,
+                                                     nil)!
+
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: "user_credentials",
+            kSecAttrService as String: "DON.teebay",
+            kSecValueData as String: credentialsData,
+            kSecAttrAccessControl as String: access,
+            kSecUseAuthenticationUI as String: kSecUseAuthenticationUI
+        ]
+
+        // Delete if already exists
+        SecItemDelete(query as CFDictionary)
+
+        let status = SecItemAdd(query as CFDictionary, nil)
+        return status == errSecSuccess
+    }
+}
